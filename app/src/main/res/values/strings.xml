@@ -1,3 +1,22 @@
 <resources>
-    <string name="app_name">MyApp</string>
+    <string name="app_name">Smart Home</string>
+    <string name="home_title">Home</string>
+    <string name="lights">Lights</string>
+    <string name="air_conditioners">Air conditioners</string>
+    <string name="devices_title">Devices</string>
+    <string name="rooms_title">Rooms</string>
+    <string name="single_rooms_title">Room</string>
+    <string name="settings_title">Settings</string>
+    <string name="add_a_device">Add a device</string>
+    <string name="light_controls">Light controls</string>
+    <string name="light_edit">Edit light information</string>
+    <string name="air_conditioner_controls">Air conditioner controls</string>
+    <string name="air_conditioner_edit">Edit air conditioner information</string>
+    <string name="living_room">Living room</string>
+    <string name="bedroom">Bedroom</string>
+    <string name="bathroom">Bathroom</string>
+    <string name="kitchen">Kitchen</string>
+    <string name="hallway">Hallway</string>
+    <string name="garage">Garage</string>
+    <string name="attic">Attic</string>
 </resources>
