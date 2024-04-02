@@ -19,4 +19,6 @@
     <string name="hallway">Hallway</string>
     <string name="garage">Garage</string>
     <string name="attic">Attic</string>
+    <string name="back_button">Go back</string>
+    <string name="fab">Add device</string>
 </resources>

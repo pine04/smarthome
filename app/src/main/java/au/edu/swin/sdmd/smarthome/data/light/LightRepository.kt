@@ -3,24 +3,25 @@ package au.edu.swin.sdmd.smarthome.data.light
 import kotlinx.coroutines.flow.Flow
 
 interface LightRepository {
-    suspend fun insertLight(light: Light)
+    suspend fun insert(light: Light)
 
-    fun getAllLights() : Flow<List<Light>>
+    suspend fun update(light: Light)
 
-    fun getAllFavoriteLights(): Flow<List<Light>>
+    suspend fun delete(light: Light)
 
-    fun getActiveLightCount(): Flow<Int>
+    fun getAll() : Flow<List<Light>>
 
-    fun getLightCount(): Flow<Int>
+    fun getById(id: Int): Flow<Light>
 
-    fun getLightById(id: Int): Flow<Light>
+    fun getByRoom(room: String): Flow<List<Light>>
 
-    suspend fun updateLight(light: Light)
+    fun getFavorites(): Flow<List<Light>>
 
-    suspend fun deleteLight(light: Light)
+    fun getCount(): Flow<Int>
 
-    fun getActiveCountForRoom(room: String): Flow<Int>
-    fun getCountForRoom(room: String): Flow<Int>
+    fun getActiveCount(): Flow<Int>
 
-    fun getAllForRoom(room: String): Flow<List<Light>>
+    fun getCountByRoom(room: String): Flow<Int>
+
+    fun getActiveCountByRoom(room: String): Flow<Int>
 }

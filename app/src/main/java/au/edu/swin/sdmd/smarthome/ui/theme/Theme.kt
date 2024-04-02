@@ -82,11 +82,11 @@ private val DarkColors = darkColorScheme(
 
 @Composable
 fun AppTheme(
-    viewModel: AppThemeViewModel = viewModel(factory = SmartHomeViewModelFactory),
+    darkModeOption: String = "auto",
     content: @Composable () -> Unit
 ) {
 
-    val useDarkMode = when (viewModel.darkModeState.collectAsState().value) {
+    val useDarkMode = when (darkModeOption) {
         "light" -> false
         "dark" -> true
         else -> isSystemInDarkTheme()
@@ -102,15 +102,5 @@ fun AppTheme(
         colorScheme = colors,
         typography = Typography,
         content = content
-    )
-}
-
-class AppThemeViewModel(
-    userPreferencesRepository: UserPreferencesRepository
-) : ViewModel() {
-    val darkModeState: StateFlow<String> = userPreferencesRepository.darkMode.map { it }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = "auto"
     )
 }

@@ -1,85 +1,91 @@
 package au.edu.swin.sdmd.smarthome.ui.settings
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import au.edu.swin.sdmd.smarthome.data.UserPreferencesRepository
 import au.edu.swin.sdmd.smarthome.data.allowedDarkModeOptions
 import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
-import kotlinx.coroutines.flow.first
+import au.edu.swin.sdmd.smarthome.ui.components.RadioGroup
+import au.edu.swin.sdmd.smarthome.ui.components.RadioOption
 import kotlinx.coroutines.launch
 
 @Composable
 fun SettingsScreen(
+    showSnackbarMessage: suspend (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = viewModel(factory = SmartHomeViewModelFactory)
 ) {
-    val settingsUiState = viewModel.uiState
     val coroutineScope = rememberCoroutineScope()
 
     Column(
-        modifier = modifier.padding(16.dp)
+        modifier = modifier
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
-        Text(text = "List of settings...")
-        Text(text = settingsUiState.darkModeOption)
+        Text(
+            text = "Dark mode",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
 
-        TextField(value = settingsUiState.darkModeOption, onValueChange = { viewModel.updateUiState(settingsUiState.copy(darkModeOption = it)) })
+        RadioGroup {
+            allowedDarkModeOptions.map { option ->
+                RadioOption(
+                    selected = viewModel.darkModeSettings == option,
+                    optionText = option.replaceFirstChar { it.uppercase() },
+                    onClick = {
+                        viewModel.darkModeSettings = option
+                        coroutineScope.launch {
+                            viewModel.updateDarkModeSettings()
+                            showSnackbarMessage("Dark mode settings updated to $option.")
+                        }
+                    }
+                )
+            }
+        }
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
+
+        Text(
+            text = "Username",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+
+        TextField(
+            value = viewModel.usernameSettings,
+            onValueChange = { viewModel.usernameSettings = it },
+            textStyle = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.fillMaxWidth()
+        )
 
         Button(
+            enabled = viewModel.isUsernameValid(viewModel.usernameSettings),
             onClick = {
                 coroutineScope.launch {
-                    viewModel.updateSettings()
+                    viewModel.updateUsername()
+                    showSnackbarMessage("Username updated.")
                 }
-            }
+            },
+            modifier = Modifier.padding(vertical = 8.dp)
         ) {
-            Text("Update settings")
-        }
-    }
-}
-
-class SettingsViewModel(
-    private val userPreferencesRepository: UserPreferencesRepository
-) : ViewModel() {
-    private lateinit var originalDarkModeSetting: String
-
-    var uiState by mutableStateOf(SettingsUiState())
-        private set
-
-    fun updateUiState(state: SettingsUiState) {
-        uiState = state
-    }
-
-    suspend fun updateSettings() {
-        userPreferencesRepository.saveDarkModePreferences(uiState.darkModeOption)
-    }
-
-    init {
-        viewModelScope.launch {
-            originalDarkModeSetting = userPreferencesRepository.darkMode.first()
-            uiState = SettingsUiState(
-                if (!allowedDarkModeOptions.contains(originalDarkModeSetting)) {
-                    "auto"
-                } else {
-                    originalDarkModeSetting
-                }
+            Text(
+                text = "Edit username",
+                style = MaterialTheme.typography.labelLarge
             )
         }
     }
 }
 
-data class SettingsUiState(
-    val darkModeOption: String = "auto"
-)

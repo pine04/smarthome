@@ -2,26 +2,11 @@ package au.edu.swin.sdmd.smarthome.data.airconditioner
 
 import kotlinx.coroutines.flow.Flow
 
-class OfflineAirConditionerRepository(private val airConditionerDao: AirConditionerDao) :
-    AirConditionerRepository {
-    override fun getAllAirConditioners(): Flow<List<AirConditioner>> {
-        return airConditionerDao.getAllAirConditioners()
-    }
-
-    override suspend fun insertAirConditioner(airConditioner: AirConditioner) {
+class OfflineAirConditionerRepository(
+    private val airConditionerDao: AirConditionerDao
+) : AirConditionerRepository {
+    override suspend fun insert(airConditioner: AirConditioner) {
         airConditionerDao.insert(airConditioner)
-    }
-
-    override fun getAllFavoriteAirConditioners(): Flow<List<AirConditioner>> {
-        return airConditionerDao.getAllFavoriteAirConditioners()
-    }
-
-    override fun getActiveAirConditionerCount(): Flow<Int> {
-        return airConditionerDao.getActiveAirConditionerCount()
-    }
-
-    override fun getAirConditionerCount(): Flow<Int> {
-        return airConditionerDao.getAirConditionerCount()
     }
 
     override suspend fun update(airConditioner: AirConditioner) {
@@ -32,19 +17,35 @@ class OfflineAirConditionerRepository(private val airConditionerDao: AirConditio
         airConditionerDao.delete(airConditioner)
     }
 
-    override fun getAirConditionerById(id: Int): Flow<AirConditioner> {
-        return airConditionerDao.getAirConditionerById(id)
+    override fun getAll(): Flow<List<AirConditioner>> {
+        return airConditionerDao.getAll()
     }
 
-    override fun getCountForRoom(room: String): Flow<Int> {
-        return airConditionerDao.getCountForRoom(room)
+    override fun getById(id: Int): Flow<AirConditioner> {
+        return airConditionerDao.getById(id)
     }
 
-    override fun getActiveCountForRoom(room: String): Flow<Int> {
-        return airConditionerDao.getActiveCountForRoom(room)
+    override fun getByRoom(room: String): Flow<List<AirConditioner>> {
+        return airConditionerDao.getByRoom(room)
     }
 
-    override fun getAllForRoom(room: String): Flow<List<AirConditioner>> {
-        return airConditionerDao.getAllForRoom(room)
+    override fun getFavorites(): Flow<List<AirConditioner>> {
+        return airConditionerDao.getFavorites()
+    }
+
+    override fun getCount(): Flow<Int> {
+        return airConditionerDao.getCount()
+    }
+
+    override fun getActiveCount(): Flow<Int> {
+        return airConditionerDao.getActiveCount()
+    }
+
+    override fun getCountByRoom(room: String): Flow<Int> {
+        return airConditionerDao.getCountByRoom(room)
+    }
+
+    override fun getActiveCountByRoom(room: String): Flow<Int> {
+        return airConditionerDao.getActiveCountByRoom(room)
     }
 }

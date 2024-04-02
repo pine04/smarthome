@@ -1,6 +1,5 @@
 package au.edu.swin.sdmd.smarthome.ui.devices
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
@@ -11,8 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -26,68 +23,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import au.edu.swin.sdmd.smarthome.MainApplication
 import au.edu.swin.sdmd.smarthome.R
-import au.edu.swin.sdmd.smarthome.data.airconditioner.AirConditioner
-import au.edu.swin.sdmd.smarthome.data.airconditioner.AirConditionerRepository
-import au.edu.swin.sdmd.smarthome.data.light.Light
-import au.edu.swin.sdmd.smarthome.data.light.LightRepository
+import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
 import au.edu.swin.sdmd.smarthome.ui.theme.AppTheme
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
-
-class DevicesScreenViewModel(
-    private val airConditionerRepository: AirConditionerRepository,
-    private val lightRepository: LightRepository
-) : ViewModel() {
-
-    val uiState: StateFlow<DevicesScreenUiState> = combine(
-        lightRepository.getLightCount(),
-        lightRepository.getActiveLightCount(),
-        airConditionerRepository.getAirConditionerCount(),
-        airConditionerRepository.getActiveAirConditionerCount()
-    ) { lights, activeLights, airConditioners, activeAirConditioners ->
-        DevicesScreenUiState(lights, activeLights, airConditioners, activeAirConditioners)
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = DevicesScreenUiState()
-    )
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val container = (this[APPLICATION_KEY] as MainApplication).container
-                val airConditionerRepository = container.airConditionerRepository
-                val lightRepository = container.lightRepository
-                DevicesScreenViewModel(airConditionerRepository, lightRepository)
-            }
-        }
-    }
-}
-
-data class DevicesScreenUiState(
-    val allLights: Int = 0,
-    val allActiveLights: Int = 0,
-    val allAirConditioners: Int = 0,
-    val allActiveAirConditioners: Int = 0
-)
 
 @Composable
 fun DevicesScreen(
     navigateToLights: () -> Unit,
     navigateToAirConditioners: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DevicesScreenViewModel = viewModel(factory = DevicesScreenViewModel.Factory)
+    viewModel: DevicesViewModel = viewModel(factory = SmartHomeViewModelFactory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -140,8 +86,15 @@ fun DeviceCategory(
             )
 
             Column {
-                Text(stringResource(id = nameResId))
-                Text("$activeDeviceCount/$totalDeviceCount active")
+                Text(
+                    text = stringResource(id = nameResId),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "$activeDeviceCount/$totalDeviceCount active",
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
 
             Spacer(modifier = Modifier.weight(1f))
@@ -150,7 +103,7 @@ fun DeviceCategory(
                 painter = painterResource(id = R.drawable.chevron_right_24px),
                 contentDescription = "",
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(32.dp)
             )
         }
     }

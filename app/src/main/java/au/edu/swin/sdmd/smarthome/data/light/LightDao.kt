@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import au.edu.swin.sdmd.smarthome.data.airconditioner.AirConditioner
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,32 +14,32 @@ interface LightDao {
     suspend fun insert(light: Light)
 
     @Update
-    suspend fun updateLight(light: Light)
+    suspend fun update(light: Light)
 
     @Delete
-    suspend fun deleteLight(light: Light)
+    suspend fun delete(light: Light)
 
     @Query("SELECT * FROM light")
-    fun getAllLights(): Flow<List<Light>>
-
-    @Query("SELECT * FROM light WHERE isFavorite == 1")
-    fun getAllFavoriteLights(): Flow<List<Light>>
-
-    @Query("SELECT COUNT(*) FROM light WHERE isOn == 1")
-    fun getActiveLightCount(): Flow<Int>
-
-    @Query("SELECT COUNT(*) FROM light")
-    fun getLightCount(): Flow<Int>
+    fun getAll(): Flow<List<Light>>
 
     @Query("SELECT * FROM light WHERE id = :id")
-    fun getLightById(id: Int): Flow<Light>
-
-    @Query("SELECT COUNT(*) FROM light WHERE isOn == 1 AND location == :room")
-    fun getActiveCountForRoom(room: String): Flow<Int>
-
-    @Query("SELECT COUNT(*) FROM light WHERE location == :room")
-    fun getCountForRoom(room: String): Flow<Int>
+    fun getById(id: Int): Flow<Light>
 
     @Query("SELECT * FROM light WHERE location == :room")
-    fun getAllForRoom(room: String): Flow<List<Light>>
+    fun getByRoom(room: String): Flow<List<Light>>
+
+    @Query("SELECT * FROM light WHERE isFavorite == 1")
+    fun getFavorites(): Flow<List<Light>>
+
+    @Query("SELECT COUNT(*) FROM light")
+    fun getCount(): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM light WHERE isOn == 1")
+    fun getActiveCount(): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM light WHERE location == :room")
+    fun getCountByRoom(room: String): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM light WHERE isOn == 1 AND location == :room")
+    fun getActiveCountByRoom(room: String): Flow<Int>
 }

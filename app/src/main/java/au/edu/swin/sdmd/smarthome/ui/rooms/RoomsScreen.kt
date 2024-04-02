@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -56,7 +58,8 @@ fun RoomsScreen(
                 stringResId = room.stringResId,
                 activeDeviceCount = roomStates[room.identifier]?.active ?: 0,
                 totalDeviceCount = roomStates[room.identifier]?.total ?: 0,
-                navigateToRoom = navigateToRoom
+                navigateToRoom = navigateToRoom,
+                modifier = Modifier.fillMaxHeight()
             )
         }
     }
@@ -73,56 +76,36 @@ fun RoomTab(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.fillMaxHeight().clickable { navigateToRoom(roomIdentifier) }
+        modifier = modifier.clickable { navigateToRoom(roomIdentifier) }
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(16.dp)
         ) {
             Icon(
                 painter = painterResource(id = iconResId),
                 contentDescription = "",
                 modifier = Modifier.size(48.dp)
             )
-            Text(stringResource(id = stringResId))
+
+            Text(
+                text = stringResource(id = stringResId),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
             Text(
                 text = if (totalDeviceCount == 0) {
                     "No devices in this room"
                 } else {
                     "$activeDeviceCount/$totalDeviceCount device(s) active"
-                }
+                },
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }
 }
-
-class RoomsViewModel(
-    private val lightRepository: LightRepository,
-    private val airConditionerRepository: AirConditionerRepository
-) : ViewModel() {
-    val roomFlows = rooms.associate { room ->
-        room.identifier to getStateFlowForRoom(room.identifier)
-    }
-
-    private fun getStateFlowForRoom(room: String): StateFlow<RoomDeviceCount> {
-        return combine(
-            lightRepository.getActiveCountForRoom(room),
-            lightRepository.getCountForRoom(room),
-            airConditionerRepository.getActiveCountForRoom(room),
-            airConditionerRepository.getCountForRoom(room)
-        ) { activeLights, lights, activeAirConditioners, airConditioners ->
-            RoomDeviceCount(activeLights + activeAirConditioners, lights + airConditioners)
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000L),
-            initialValue = RoomDeviceCount()
-        )
-    }
-}
-
-data class RoomDeviceCount(
-    val active: Int = 0,
-    val total: Int = 0
-)
 
 interface RoomTab {
     val identifier: String

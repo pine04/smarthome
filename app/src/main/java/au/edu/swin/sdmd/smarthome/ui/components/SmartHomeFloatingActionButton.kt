@@ -1,20 +1,23 @@
 package au.edu.swin.sdmd.smarthome.ui.components
 
-import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import au.edu.swin.sdmd.smarthome.AirConditionersDestination
 import au.edu.swin.sdmd.smarthome.DeviceAddDestination
 import au.edu.swin.sdmd.smarthome.DevicesDestination
-import au.edu.swin.sdmd.smarthome.LightControlsDestination
-import au.edu.swin.sdmd.smarthome.LightEditDestination
 import au.edu.swin.sdmd.smarthome.LightsDestination
 import au.edu.swin.sdmd.smarthome.NavigationDestination
+import au.edu.swin.sdmd.smarthome.R
+import au.edu.swin.sdmd.smarthome.SingleRoomDestination
+import au.edu.swin.sdmd.smarthome.ui.theme.AppTheme
 
 @Composable
 fun SmartHomeFloatingActionButton(
@@ -23,13 +26,21 @@ fun SmartHomeFloatingActionButton(
     modifier: Modifier = Modifier
 ) {
     when (currentDestination) {
-        DevicesDestination, LightsDestination, AirConditionersDestination -> {
-            FloatingActionButton(
+        DevicesDestination, LightsDestination, AirConditionersDestination, SingleRoomDestination -> {
+            ExtendedFloatingActionButton(
                 onClick = { navigateTo(DeviceAddDestination.route) },
+                icon = { Icon(imageVector = Icons.Filled.Add, contentDescription = "") },
+                text = { Text(text = stringResource(id = R.string.fab), style = MaterialTheme.typography.labelLarge) },
                 modifier = modifier
-            ) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "")
-            }
+            )
         }
+    }
+}
+
+@Preview
+@Composable
+fun FABPreview() {
+    AppTheme {
+        SmartHomeFloatingActionButton(currentDestination = DevicesDestination, navigateTo = { })
     }
 }

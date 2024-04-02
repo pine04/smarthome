@@ -7,29 +7,20 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import au.edu.swin.sdmd.smarthome.MainApplication
-import au.edu.swin.sdmd.smarthome.data.light.Light
-import au.edu.swin.sdmd.smarthome.data.light.LightRepository
-import au.edu.swin.sdmd.smarthome.ui.home.LightItem
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
+import au.edu.swin.sdmd.smarthome.ui.components.LightItem
+import kotlinx.coroutines.launch
 
 @Composable
 fun LightsScreen(
     navigateToLightControls: (Int) -> Unit,
-    viewModel: LightsViewModel = viewModel(factory = LightsViewModel.Factory)
+    viewModel: LightsViewModel = viewModel(factory = SmartHomeViewModelFactory)
 ) {
     val lightsUiState by viewModel.lightsUiState.collectAsState()
+    val scope = rememberCoroutineScope()
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -38,34 +29,14 @@ fun LightsScreen(
         items(lightsUiState.lights) { light ->
             LightItem(
                 light = light,
-                navigateToLightControls = navigateToLightControls
+                navigateToLightControls = navigateToLightControls,
+                toggleLight = { state ->
+                    scope.launch {
+                        viewModel.updateLight(light.copy(isOn = state))
+                    }
+                }
             )
         }
     }
 }
 
-class LightsViewModel(
-    private val lightsRepository: LightRepository
-) : ViewModel() {
-    val lightsUiState: StateFlow<LightsUiState> = lightsRepository.getAllLights().map { lights ->
-        LightsUiState(lights)
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = LightsUiState()
-    )
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val container = (this[APPLICATION_KEY] as MainApplication).container
-                val lightRepository = container.lightRepository
-                LightsViewModel(lightRepository)
-            }
-        }
-    }
-}
-
-data class LightsUiState(
-    val lights: List<Light> = listOf()
-)

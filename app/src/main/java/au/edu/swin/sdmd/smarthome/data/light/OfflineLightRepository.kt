@@ -3,47 +3,47 @@ package au.edu.swin.sdmd.smarthome.data.light
 import kotlinx.coroutines.flow.Flow
 
 class OfflineLightRepository(private val lightDao: LightDao) : LightRepository {
-    override fun getAllLights(): Flow<List<Light>> {
-        return lightDao.getAllLights()
-    }
-
-    override suspend fun insertLight(light: Light) {
+    override suspend fun insert(light: Light) {
         lightDao.insert(light)
     }
 
-    override fun getLightCount(): Flow<Int> {
-        return lightDao.getLightCount()
+    override suspend fun update(light: Light) {
+        lightDao.update(light)
     }
 
-    override fun getActiveLightCount(): Flow<Int> {
-        return lightDao.getActiveLightCount()
+    override suspend fun delete(light: Light) {
+        lightDao.delete(light)
     }
 
-    override fun getAllFavoriteLights(): Flow<List<Light>> {
-        return lightDao.getAllFavoriteLights()
+    override fun getAll(): Flow<List<Light>> {
+        return lightDao.getAll()
     }
 
-    override fun getLightById(id: Int): Flow<Light> {
-        return lightDao.getLightById(id)
+    override fun getById(id: Int): Flow<Light> {
+        return lightDao.getById(id)
     }
 
-    override suspend fun updateLight(light: Light) {
-        lightDao.updateLight(light)
+    override fun getByRoom(room: String): Flow<List<Light>> {
+        return lightDao.getByRoom(room)
     }
 
-    override suspend fun deleteLight(light: Light) {
-        lightDao.deleteLight(light)
+    override fun getFavorites(): Flow<List<Light>> {
+        return lightDao.getFavorites()
     }
 
-    override fun getCountForRoom(room: String): Flow<Int> {
-        return lightDao.getCountForRoom(room)
+    override fun getCount(): Flow<Int> {
+        return lightDao.getCount()
     }
 
-    override fun getActiveCountForRoom(room: String): Flow<Int> {
-        return lightDao.getActiveCountForRoom(room)
+    override fun getActiveCount(): Flow<Int> {
+        return lightDao.getActiveCount()
     }
 
-    override fun getAllForRoom(room: String): Flow<List<Light>> {
-        return lightDao.getAllForRoom(room)
+    override fun getCountByRoom(room: String): Flow<Int> {
+        return lightDao.getCountByRoom(room)
+    }
+
+    override fun getActiveCountByRoom(room: String): Flow<Int> {
+        return lightDao.getActiveCountByRoom(room)
     }
 }

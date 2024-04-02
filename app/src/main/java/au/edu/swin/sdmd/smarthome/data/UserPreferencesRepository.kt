@@ -16,19 +16,22 @@ class UserPreferencesRepository(
     private val dataStore: DataStore<Preferences>
 ) {
     private companion object {
+        const val LOG_TAG = "UserPreferencesRepository"
         val DARK_MODE = stringPreferencesKey("dark_mode")
+        val USERNAME = stringPreferencesKey("username")
     }
 
-    val darkMode: Flow<String> = dataStore.data
+    val preferences: Flow<SmartHomePreferences> = dataStore.data
         .catch {
             if (it is IOException) {
-                Log.e("UserPreferencesRepository", "An error happened while reading preferences.", it)
-            } else {
-                throw it
+                Log.e(LOG_TAG, "An error happened while reading preferences.", it)
             }
         }
         .map { preferences ->
-            preferences[DARK_MODE] ?: "auto"
+            SmartHomePreferences(
+                darkMode = preferences[DARK_MODE] ?: "auto",
+                username = preferences[USERNAME] ?: "User"
+            )
         }
 
     suspend fun saveDarkModePreferences(darkMode: String) {
@@ -40,4 +43,19 @@ class UserPreferencesRepository(
             preferences[DARK_MODE] = darkMode
         }
     }
+
+    suspend fun saveUsernamePreferences(username: String) {
+        if (username.isEmpty()) {
+            throw IllegalArgumentException("Empty username.")
+        }
+
+        dataStore.edit { preferences ->
+            preferences[USERNAME] = username
+        }
+    }
 }
+
+data class SmartHomePreferences(
+    val darkMode: String = "auto",
+    val username: String = "User"
+)
