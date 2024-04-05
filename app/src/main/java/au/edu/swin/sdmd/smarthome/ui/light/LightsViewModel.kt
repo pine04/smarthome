@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
+// View model for the Lights screen.
 class LightsViewModel(
     private val lightRepository: LightRepository
 ) : ViewModel() {

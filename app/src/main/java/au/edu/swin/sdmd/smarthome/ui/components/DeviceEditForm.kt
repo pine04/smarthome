@@ -24,9 +24,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import au.edu.swin.sdmd.smarthome.R
 import au.edu.swin.sdmd.smarthome.data.Room
 
+// A form with options to edit and delete a device.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DeviceEditForm(
@@ -50,7 +53,7 @@ fun DeviceEditForm(
             onValueChange = onDeviceNameChange,
             label = {
                 Text(
-                    text = "Device name",
+                    text = stringResource(id = R.string.device_name),
                     style = MaterialTheme.typography.labelSmall
                 )
             },
@@ -70,7 +73,7 @@ fun DeviceEditForm(
                 onValueChange = { },
                 label = {
                     Text(
-                        text = "Room",
+                        text = stringResource(id = R.string.room),
                         style = MaterialTheme.typography.labelSmall
                     )
                 },
@@ -103,7 +106,7 @@ fun DeviceEditForm(
             onClick = onConfirmEdit
         ) {
             Text(
-                text = "Edit",
+                text = stringResource(R.string.edit),
                 style = MaterialTheme.typography.labelLarge
             )
         }
@@ -116,7 +119,7 @@ fun DeviceEditForm(
             }
         ) {
             Text(
-                text = "Remove from home",
+                text = stringResource(R.string.remove_from_home),
                 style = MaterialTheme.typography.labelLarge
             )
         }
@@ -124,10 +127,13 @@ fun DeviceEditForm(
         if (isAlertDialogOpen) {
             AlertDialog(
                 icon = { Icon(imageVector = Icons.Filled.Warning, contentDescription = "") },
-                title = { Text(text = "Warning", style = MaterialTheme.typography.titleMedium) },
+                title = { Text(text = stringResource(R.string.warning), style = MaterialTheme.typography.titleMedium) },
                 text = {
                     Text(
-                        text = "You are trying to remove $originalName from your home. This action is irreversible. Do you want to continue?",
+                        text = stringResource(
+                            R.string.you_are_trying_to_remove_from_your_home_this_action_is_irreversible_do_you_want_to_continue,
+                            originalName
+                        ),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 },
@@ -139,12 +145,12 @@ fun DeviceEditForm(
                             onConfirmDelete()
                         }
                     ) {
-                        Text(text = "Yes", style = MaterialTheme.typography.bodyMedium)
+                        Text(text = stringResource(R.string.yes), style = MaterialTheme.typography.bodyMedium)
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { isAlertDialogOpen = false }) {
-                        Text(text = "No", style = MaterialTheme.typography.bodyMedium)
+                        Text(text = stringResource(R.string.no), style = MaterialTheme.typography.bodyMedium)
                     }
                 },
             )

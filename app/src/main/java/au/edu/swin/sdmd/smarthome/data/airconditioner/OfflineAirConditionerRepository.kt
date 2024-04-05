@@ -2,6 +2,7 @@ package au.edu.swin.sdmd.smarthome.data.airconditioner
 
 import kotlinx.coroutines.flow.Flow
 
+// AirConditioner repository class used by ViewModels. Contains methods that interact with the Air Conditioner table.
 class OfflineAirConditionerRepository(
     private val airConditionerDao: AirConditionerDao
 ) : AirConditionerRepository {

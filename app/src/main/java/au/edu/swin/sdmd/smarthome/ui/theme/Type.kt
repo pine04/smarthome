@@ -8,6 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import au.edu.swin.sdmd.smarthome.R
 
+// The application's custom fonts.
 val Inter = FontFamily(
     Font(R.font.inter_regular),
     Font(R.font.inter_bold, FontWeight.Bold)

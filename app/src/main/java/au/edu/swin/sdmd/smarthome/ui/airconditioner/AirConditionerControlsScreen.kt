@@ -1,13 +1,11 @@
 package au.edu.swin.sdmd.smarthome.ui.airconditioner
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
@@ -24,14 +22,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import au.edu.swin.sdmd.smarthome.R
 import au.edu.swin.sdmd.smarthome.data.airconditioner.FanSpeed
 import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
 import au.edu.swin.sdmd.smarthome.ui.components.CheckboxOption
 import au.edu.swin.sdmd.smarthome.ui.components.OnOffButton
 import kotlinx.coroutines.launch
 
+// Screen that allows the user to control an air conditioner.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AirConditionerControlsScreen(
@@ -74,7 +75,7 @@ fun AirConditionerControlsScreen(
         )
 
         Text(
-            text = "Temperature: $temperature°C",
+            text = stringResource(R.string.temperature_c, temperature),
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.fillMaxWidth()
         )
@@ -93,9 +94,11 @@ fun AirConditionerControlsScreen(
         )
 
         Text(
-            text = "Fan speed",
+            text = stringResource(R.string.fan_speed),
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.fillMaxWidth().padding(top = 32.dp, bottom = 8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp, bottom = 8.dp)
         )
 
         SingleChoiceSegmentedButtonRow {
@@ -123,7 +126,7 @@ fun AirConditionerControlsScreen(
 
         CheckboxOption(
             selected = uiState.isFavorite,
-            optionText = "Add to home screen for quick access",
+            optionText = stringResource(id = R.string.add_to_home_screen_for_quick_access),
             onClick = {
                 coroutineScope.launch {
                     viewModel.update(uiState.copy(isFavorite = !uiState.isFavorite))
@@ -143,7 +146,7 @@ fun AirConditionerControlsScreen(
 
         Button(onClick = { navigateToAirConditionerEdit(uiState.id) }) {
             Text(
-                text = "Edit air conditioner information",
+                text = stringResource(R.string.edit_air_conditioner_information),
                 style = MaterialTheme.typography.labelLarge
             )
         }

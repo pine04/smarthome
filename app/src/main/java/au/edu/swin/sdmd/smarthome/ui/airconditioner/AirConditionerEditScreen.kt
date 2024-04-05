@@ -7,10 +7,11 @@ import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
 import au.edu.swin.sdmd.smarthome.ui.components.DeviceEditForm
 import kotlinx.coroutines.launch
 
+// Screen that allows the user to edit an air conditioner's information.
 @Composable
 fun AirConditionerEditScreen(
-    navigateBack: () -> Unit,
-    navigateToAirConditioners: () -> Unit,
+    navigateBackAfterEdit: () -> Unit,
+    navigateBackAfterDelete: () -> Unit,
     viewModel: AirConditionerEditViewModel = viewModel(factory = SmartHomeViewModelFactory)
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -31,13 +32,13 @@ fun AirConditionerEditScreen(
         onConfirmEdit = {
             coroutineScope.launch {
                 viewModel.update()
-                navigateBack()
+                navigateBackAfterEdit()
             }
         },
         onConfirmDelete = {
             coroutineScope.launch {
                 viewModel.delete()
-                navigateToAirConditioners()
+                navigateBackAfterDelete()
             }
         }
     )

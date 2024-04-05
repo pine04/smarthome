@@ -28,6 +28,7 @@ import au.edu.swin.sdmd.smarthome.R
 import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
 import au.edu.swin.sdmd.smarthome.ui.theme.AppTheme
 
+// Screen where the user can see the device categories and how many devices are active for each category.
 @Composable
 fun DevicesScreen(
     navigateToLights: () -> Unit,
@@ -92,7 +93,7 @@ fun DeviceCategory(
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = "$activeDeviceCount/$totalDeviceCount active",
+                    text = stringResource(R.string.active, activeDeviceCount, totalDeviceCount),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
+// View model for the home screen.
 class HomeViewModel(
     private val lightRepository: LightRepository,
     private val airConditionerRepository: AirConditionerRepository,

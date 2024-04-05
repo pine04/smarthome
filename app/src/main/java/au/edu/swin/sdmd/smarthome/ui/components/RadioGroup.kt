@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
+// A group of related radio options.
 @Composable
 fun RadioGroup(
     modifier: Modifier = Modifier,
@@ -29,6 +30,7 @@ fun RadioGroup(
     )
 }
 
+// Comprises a radio button and its accompanying text.
 @Composable
 fun RadioOption(
     selected: Boolean,

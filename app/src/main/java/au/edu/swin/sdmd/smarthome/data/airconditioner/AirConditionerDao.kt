@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
+// Contains relevant queries for the Air Conditioner table.
 @Dao
 interface AirConditionerDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)

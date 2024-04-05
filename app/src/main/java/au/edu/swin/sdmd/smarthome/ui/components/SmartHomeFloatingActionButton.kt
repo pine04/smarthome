@@ -19,6 +19,7 @@ import au.edu.swin.sdmd.smarthome.R
 import au.edu.swin.sdmd.smarthome.SingleRoomDestination
 import au.edu.swin.sdmd.smarthome.ui.theme.AppTheme
 
+// A floating action button that takes the user to the device add screen.
 @Composable
 fun SmartHomeFloatingActionButton(
     currentDestination: NavigationDestination,

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
+// View model for air conditioner control screen.
 class AirConditionerControlsViewModel(
     savedStateHandle: SavedStateHandle,
     private val airConditionerRepository: AirConditionerRepository

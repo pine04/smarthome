@@ -13,16 +13,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
+// View model for the Single room screen.
 class SingleRoomViewModel(
     savedStateHandle: SavedStateHandle,
     private val lightRepository: LightRepository,
     private val airConditionerRepository: AirConditionerRepository
 ) : ViewModel() {
     private val room: String = checkNotNull(savedStateHandle[SingleRoomDestination.roomArg])
+    private val roomSearchArgument: String = rooms.find { it.destination == room }?.roomSearchArgument ?: "Living Room"
 
     val uiState: StateFlow<SingleRoomUiState> = combine(
-        lightRepository.getByRoom(room),
-        airConditionerRepository.getByRoom(room)
+        lightRepository.getByRoom(roomSearchArgument),
+        airConditionerRepository.getByRoom(roomSearchArgument)
     ) { lights, airConditioners ->
         SingleRoomUiState(lights, airConditioners)
     }.stateIn(

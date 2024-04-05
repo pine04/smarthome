@@ -12,6 +12,7 @@ import java.io.IOException
 
 val allowedDarkModeOptions = arrayOf("auto", "light", "dark")
 
+// A repository which reads from Preferences DataStore. Used by ViewModels to access dark mode and username information.
 class UserPreferencesRepository(
     private val dataStore: DataStore<Preferences>
 ) {

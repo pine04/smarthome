@@ -1,5 +1,6 @@
 package au.edu.swin.sdmd.smarthome.data
 
+// A list of supported rooms in the application.
 enum class Room(val value: String) {
     LIVING_ROOM(value = "Living Room"),
     BEDROOM(value = "Bedroom"),

@@ -13,6 +13,7 @@ val deviceOptions = arrayOf("Light", "Air conditioner")
 val roomOptions =
     arrayOf("Living Room", "Bedroom", "Bathroom", "Kitchen", "Hallway", "Garage", "Attic")
 
+// View model for the device add screen.
 class DeviceAddViewModel(
     private val lightRepository: OfflineLightRepository,
     private val airConditionerRepository: AirConditionerRepository

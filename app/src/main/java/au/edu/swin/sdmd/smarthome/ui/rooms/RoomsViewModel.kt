@@ -9,12 +9,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
+// View model for the Rooms screen.
 class RoomsViewModel(
     private val lightRepository: LightRepository,
     private val airConditionerRepository: AirConditionerRepository
 ) : ViewModel() {
     val roomFlows = rooms.associate { room ->
-        room.identifier to getStateFlowForRoom(room.identifier)
+        room.roomSearchArgument to getStateFlowForRoom(room.roomSearchArgument)
     }
 
     private fun getStateFlowForRoom(room: String): StateFlow<RoomDeviceCount> {

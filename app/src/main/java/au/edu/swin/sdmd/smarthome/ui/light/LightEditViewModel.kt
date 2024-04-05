@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+// View model for the light edit screen.
 class LightEditViewModel(
     savedStateHandle: SavedStateHandle,
     private val lightRepository: LightRepository

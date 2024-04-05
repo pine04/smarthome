@@ -37,6 +37,7 @@ val destinationsWithBottomNav = arrayOf(
     SettingsDestination
 )
 
+// The bottom navigation bar component.
 @Composable
 fun BottomNavigationBar(
     currentDestination: NavigationDestination,

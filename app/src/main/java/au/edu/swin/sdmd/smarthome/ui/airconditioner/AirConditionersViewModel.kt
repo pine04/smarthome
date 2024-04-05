@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
+// View model for the air conditioners screen.
 class AirConditionersViewModel(
     private val airConditionerRepository: AirConditionerRepository
 ) : ViewModel() {

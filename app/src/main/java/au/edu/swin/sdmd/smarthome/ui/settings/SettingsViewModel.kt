@@ -10,6 +10,7 @@ import au.edu.swin.sdmd.smarthome.data.allowedDarkModeOptions
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+// View model for the Settings screen.
 class SettingsViewModel(
     private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {

@@ -11,6 +11,7 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = "user_preferences"
 )
 
+// Contains the repositories used by the ViewModels. This container is used for dependency injection.
 class AppContainer(private val context: Context) {
     val airConditionerRepository by lazy {
         OfflineAirConditionerRepository(SmartHomeDatabase.getDatabase(context).airConditionerDao())

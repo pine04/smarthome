@@ -13,14 +13,17 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import au.edu.swin.sdmd.smarthome.R
 import au.edu.swin.sdmd.smarthome.data.allowedDarkModeOptions
 import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
 import au.edu.swin.sdmd.smarthome.ui.components.RadioGroup
 import au.edu.swin.sdmd.smarthome.ui.components.RadioOption
 import kotlinx.coroutines.launch
 
+// Screen to update the application's global settings.
 @Composable
 fun SettingsScreen(
     showSnackbarMessage: suspend (String) -> Unit,
@@ -35,7 +38,7 @@ fun SettingsScreen(
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            text = "Dark mode",
+            text = stringResource(R.string.dark_mode),
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(vertical = 8.dp)
         )
@@ -82,7 +85,7 @@ fun SettingsScreen(
             modifier = Modifier.padding(vertical = 8.dp)
         ) {
             Text(
-                text = "Edit username",
+                text = stringResource(R.string.edit_username),
                 style = MaterialTheme.typography.labelLarge
             )
         }

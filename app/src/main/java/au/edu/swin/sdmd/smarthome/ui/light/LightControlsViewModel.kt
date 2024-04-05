@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
+// View model for the light controls screen.
 class LightControlsViewModel(
     savedStateHandle: SavedStateHandle,
     private val lightRepository: LightRepository

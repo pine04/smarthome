@@ -2,19 +2,9 @@ package au.edu.swin.sdmd.smarthome.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import au.edu.swin.sdmd.smarthome.data.UserPreferencesRepository
-import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 
 private val LightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -80,6 +70,7 @@ private val DarkColors = darkColorScheme(
     scrim = md_theme_dark_scrim,
 )
 
+// Wrapper around the application to provide theme information to Composables.
 @Composable
 fun AppTheme(
     darkModeOption: String = "auto",

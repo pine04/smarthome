@@ -3,6 +3,7 @@ package au.edu.swin.sdmd.smarthome.data.airconditioner
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+// Represents the Air Conditioner table in the database.
 @Entity(tableName = "air_conditioner")
 data class AirConditioner(
     @PrimaryKey(autoGenerate = true)

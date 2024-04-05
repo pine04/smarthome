@@ -2,6 +2,7 @@ package au.edu.swin.sdmd.smarthome.data.light
 
 import kotlinx.coroutines.flow.Flow
 
+// Light repository class used by ViewModels. Contains methods that interact with the Light table.
 class OfflineLightRepository(private val lightDao: LightDao) : LightRepository {
     override suspend fun insert(light: Light) {
         lightDao.insert(light)

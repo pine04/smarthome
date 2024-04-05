@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import au.edu.swin.sdmd.smarthome.R
 import au.edu.swin.sdmd.smarthome.ui.theme.AppTheme
 
+// A button that can turn on or off a device.
 @Composable
 fun OnOffButton(
     isOn: Boolean,

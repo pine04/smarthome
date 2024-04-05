@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+// View model for the air conditioner screen.
 class AirConditionerEditViewModel(
     savedStateHandle: SavedStateHandle,
     private val airConditionerRepository: AirConditionerRepository

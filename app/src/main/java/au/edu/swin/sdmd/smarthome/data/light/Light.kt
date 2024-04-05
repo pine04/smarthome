@@ -3,6 +3,7 @@ package au.edu.swin.sdmd.smarthome.data.light
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+// Represents the Light table in the database.
 @Entity(tableName = "light")
 data class Light(
     @PrimaryKey(autoGenerate = true)

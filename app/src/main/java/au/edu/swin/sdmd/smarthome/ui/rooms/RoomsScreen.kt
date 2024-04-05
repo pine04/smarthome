@@ -5,8 +5,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,20 +21,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import au.edu.swin.sdmd.smarthome.R
-import au.edu.swin.sdmd.smarthome.data.Room
-import au.edu.swin.sdmd.smarthome.data.airconditioner.AirConditionerRepository
-import au.edu.swin.sdmd.smarthome.data.light.LightRepository
 import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
-import au.edu.swin.sdmd.smarthome.ui.home.HomeScreenUiState
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
 
+// Screen that displays a list of rooms that the user can go to.
 @Composable
 fun RoomsScreen(
     navigateToRoom: (String) -> Unit,
@@ -53,11 +42,11 @@ fun RoomsScreen(
     ) {
         items(rooms) { room ->
             RoomTab(
-                roomIdentifier = room.identifier,
+                roomIdentifier = room.destination,
                 iconResId = room.iconResId,
                 stringResId = room.stringResId,
-                activeDeviceCount = roomStates[room.identifier]?.active ?: 0,
-                totalDeviceCount = roomStates[room.identifier]?.total ?: 0,
+                activeDeviceCount = roomStates[room.destination]?.active ?: 0,
+                totalDeviceCount = roomStates[room.destination]?.total ?: 0,
                 navigateToRoom = navigateToRoom,
                 modifier = Modifier.fillMaxHeight()
             )
@@ -65,6 +54,7 @@ fun RoomsScreen(
     }
 }
 
+// Represents a clickable tab that takes the user to the corresponding room.
 @Composable
 fun RoomTab(
     roomIdentifier: String,
@@ -108,49 +98,57 @@ fun RoomTab(
 }
 
 interface RoomTab {
-    val identifier: String
+    val destination: String
+    val roomSearchArgument: String
     val iconResId: Int
     val stringResId: Int
 }
 
 object LivingRoom: RoomTab {
-    override val identifier = "LivingRoom"
+    override val destination = "LivingRoom"
+    override val roomSearchArgument = "Living Room"
     override val iconResId = R.drawable.living_room_24px
     override val stringResId = R.string.living_room
 }
 
 object Bedroom: RoomTab {
-    override val identifier = "Bedroom"
+    override val destination = "Bedroom"
+    override val roomSearchArgument = "Bedroom"
     override val iconResId = R.drawable.bedroom_24px
     override val stringResId = R.string.bedroom
 }
 
 object Bathroom: RoomTab {
-    override val identifier = "Bathroom"
+    override val destination = "Bathroom"
+    override val roomSearchArgument = "Bathroom"
     override val iconResId = R.drawable.bathroom_24px
     override val stringResId = R.string.bathroom
 }
 
 object Kitchen: RoomTab {
-    override val identifier = "Kitchen"
+    override val destination = "Kitchen"
+    override val roomSearchArgument = "Kitchen"
     override val iconResId = R.drawable.kitchen_24px
     override val stringResId = R.string.kitchen
 }
 
 object Hallway: RoomTab {
-    override val identifier = "Hallway"
+    override val destination = "Hallway"
+    override val roomSearchArgument = "Hallway"
     override val iconResId = R.drawable.hallway_24px
     override val stringResId = R.string.hallway
 }
 
 object Garage: RoomTab {
-    override val identifier = "Garage"
+    override val destination = "Garage"
+    override val roomSearchArgument = "Garage"
     override val iconResId = R.drawable.garage_24px
     override val stringResId = R.string.garage
 }
 
 object Attic: RoomTab {
-    override val identifier = "Attic"
+    override val destination = "Attic"
+    override val roomSearchArgument = "Attic"
     override val iconResId = R.drawable.attic_24px
     override val stringResId = R.string.attic
 }

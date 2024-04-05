@@ -2,6 +2,8 @@ package au.edu.swin.sdmd.smarthome.data.airconditioner
 
 import kotlinx.coroutines.flow.Flow
 
+// Interface for repositories that have to interact with the Air Conditioner table. There can be multiple repositories of this type but this project
+// has one only.
 interface AirConditionerRepository {
     suspend fun insert(airConditioner: AirConditioner)
 

@@ -28,6 +28,7 @@ private val destinationsWithOutBackButton = arrayOf(
     SettingsDestination
 )
 
+// A top bar that displays the name of the current screen and the option to go back if applicable.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmartHomeTopBar(

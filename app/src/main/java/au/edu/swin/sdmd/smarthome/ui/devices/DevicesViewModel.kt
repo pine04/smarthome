@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
+// View model for the device screen.
 class DevicesViewModel(
     lightRepository: LightRepository,
     airConditionerRepository: AirConditionerRepository

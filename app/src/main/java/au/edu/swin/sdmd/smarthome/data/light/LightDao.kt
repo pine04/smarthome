@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
+// Contains relevant queries for the Light table.
 @Dao
 interface LightDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)

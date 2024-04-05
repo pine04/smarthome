@@ -3,9 +3,7 @@ package au.edu.swin.sdmd.smarthome.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import au.edu.swin.sdmd.smarthome.data.light.Light
 import au.edu.swin.sdmd.smarthome.ui.theme.AppTheme
 
+// A card that can be clicked on to go to the light control screen.
 @Composable
 fun LightItem(
     light: Light,

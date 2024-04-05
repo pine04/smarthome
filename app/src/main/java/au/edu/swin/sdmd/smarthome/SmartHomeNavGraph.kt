@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -41,18 +42,21 @@ import au.edu.swin.sdmd.smarthome.ui.rooms.RoomsScreen
 import au.edu.swin.sdmd.smarthome.ui.rooms.SingleRoomScreen
 import au.edu.swin.sdmd.smarthome.ui.settings.SettingsScreen
 
+// An EnterTransition object used for animating a screen when it comes into view.
 val FadeInEnterTransition: EnterTransition = fadeIn(
     animationSpec = tween(
         300, easing = LinearEasing
     )
 )
 
+// An ExitTransition object used for animating a screen when it exits view.
 val FadeOutExitTransition: ExitTransition = fadeOut(
     animationSpec = tween(
         300, easing = LinearEasing
     )
 )
 
+// The application's navigation graph.
 @Composable
 fun SmartHomeNavGraph(navController: NavHostController = rememberNavController()) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -80,6 +84,7 @@ fun SmartHomeNavGraph(navController: NavHostController = rememberNavController()
                 currentDestination = currentDestination,
                 navigateToDestination = { route: String ->
                     navController.navigate(route) {
+                        popUpTo(navController.graph.findStartDestination().id)
                         launchSingleTop = true
                     }
                 }
@@ -217,8 +222,8 @@ fun SmartHomeNavGraph(navController: NavHostController = rememberNavController()
                 arguments = LightEditDestination.arguments
             ) {
                 LightEditScreen(
-                    navigateBack = { navController.navigateUp() },
-                    navigateToLights = { navController.navigate(LightsDestination.route) }
+                    navigateBackAfterEdit = { navController.navigateUp() },
+                    navigateBackAfterDelete = { navController.popBackStack(route = LightControlsDestination.routeWithArgs, inclusive = true) }
                 )
             }
 
@@ -237,8 +242,8 @@ fun SmartHomeNavGraph(navController: NavHostController = rememberNavController()
                 arguments = AirConditionerEditDestination.arguments
             ) {
                 AirConditionerEditScreen(
-                    navigateBack = { navController.navigateUp() },
-                    navigateToAirConditioners = { navController.navigate(AirConditionersDestination.route) }
+                    navigateBackAfterEdit = { navController.navigateUp() },
+                    navigateBackAfterDelete = { navController.popBackStack(route = AirConditionerControlsDestination.routeWithArgs, inclusive = true) }
                 )
             }
 
@@ -255,6 +260,7 @@ fun SmartHomeNavGraph(navController: NavHostController = rememberNavController()
     }
 }
 
+// Interface for the objects representing the routes for screens.
 interface NavigationDestination {
     val route: String
     val titleResId: Int
@@ -345,6 +351,7 @@ object AirConditionerEditDestination : NavigationDestination {
     )
 }
 
+// An array containing the destination objects defined above.
 val destinations = listOf(
     HomeDestination,
     DevicesDestination,

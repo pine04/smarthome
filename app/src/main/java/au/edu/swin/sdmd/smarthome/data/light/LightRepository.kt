@@ -2,6 +2,8 @@ package au.edu.swin.sdmd.smarthome.data.light
 
 import kotlinx.coroutines.flow.Flow
 
+// Interface for repositories that have to interact with the Light table. There can be multiple repositories of this type but this project
+// has one only.
 interface LightRepository {
     suspend fun insert(light: Light)
 

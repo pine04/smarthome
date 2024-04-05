@@ -7,24 +7,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import au.edu.swin.sdmd.smarthome.R
 import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
 import au.edu.swin.sdmd.smarthome.ui.components.AirConditionerItem
 import au.edu.swin.sdmd.smarthome.ui.components.LightItem
 import kotlinx.coroutines.launch
 
+// The app's home screen.
 @Composable
 fun HomeScreen(
     navigateToLightControls: (Int) -> Unit,
@@ -46,13 +46,13 @@ fun HomeScreen(
     ) {
         item {
             Text(
-                text = "Welcome home, $username!",
+                text = stringResource(R.string.welcome_home, username),
                 style = MaterialTheme.typography.displayLarge
             )
         }
         item {
             Text(
-                text = "Lights",
+                text = stringResource(id = R.string.lights),
                 style = MaterialTheme.typography.headlineMedium
             )
         }
@@ -64,14 +64,14 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "You have not pinned any lights to the home screen.",
+                        text = stringResource(R.string.you_have_not_pinned_any_lights_to_the_home_screen),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
 
                     Button(onClick = navigateToLightsScreen) {
-                        Text("Add a device")
+                        Text(stringResource(id = R.string.add_a_device))
                     }
                 }
             }
@@ -91,7 +91,7 @@ fun HomeScreen(
 
         item {
             Text(
-                text = "Air conditioners",
+                text = stringResource(id = R.string.air_conditioners),
                 style = MaterialTheme.typography.headlineMedium
             )
         }
@@ -103,14 +103,14 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "You have not pinned any air conditioners to the home screen.",
+                        text = stringResource(R.string.you_have_not_pinned_any_air_conditioners_to_the_home_screen),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
 
                     Button(onClick = navigateToAirConditionersScreen) {
-                        Text("Add a device")
+                        Text(stringResource(id = R.string.add_a_device))
                     }
                 }
             }

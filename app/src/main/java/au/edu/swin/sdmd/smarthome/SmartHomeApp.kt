@@ -24,6 +24,7 @@ fun SmartHomeApp(
     }
 }
 
+// View model that contains the global dark mode settings.
 class AppThemeViewModel(
     userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {

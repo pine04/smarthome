@@ -11,14 +11,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import au.edu.swin.sdmd.smarthome.R
 import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
 import au.edu.swin.sdmd.smarthome.ui.components.AirConditionerItem
 import au.edu.swin.sdmd.smarthome.ui.components.LightItem
 import kotlinx.coroutines.launch
 
+// Screen that displays a list of lights and air conditioners of a specific room.
 @Composable
 fun SingleRoomScreen(
     navigateToLightControls: (Int) -> Unit,
@@ -37,7 +40,7 @@ fun SingleRoomScreen(
     ) {
         item {
             Text(
-                text = "Lights",
+                text = stringResource(id = R.string.lights),
                 style = MaterialTheme.typography.headlineMedium
             )
         }
@@ -45,7 +48,7 @@ fun SingleRoomScreen(
         if (lights.isEmpty()) {
             item {
                 Text(
-                    text = "You do not have any lights in this room.",
+                    text = stringResource(R.string.you_do_not_have_any_lights_in_this_room),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier
@@ -69,7 +72,7 @@ fun SingleRoomScreen(
 
         item {
             Text(
-                text = "Air conditioners",
+                text = stringResource(id = R.string.air_conditioners),
                 style = MaterialTheme.typography.headlineMedium
             )
         }
@@ -77,7 +80,7 @@ fun SingleRoomScreen(
         if (airConditioners.isEmpty()) {
             item {
                 Text(
-                    text = "You do not have any air conditioners in this room.",
+                    text = stringResource(R.string.you_do_not_have_any_air_conditioners_in_this_room),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier

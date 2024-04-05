@@ -7,10 +7,11 @@ import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
 import au.edu.swin.sdmd.smarthome.ui.components.DeviceEditForm
 import kotlinx.coroutines.launch
 
+// Screen where the user can edit a light's information.
 @Composable
 fun LightEditScreen(
-    navigateBack: () -> Unit,
-    navigateToLights: () -> Unit,
+    navigateBackAfterEdit: () -> Unit,
+    navigateBackAfterDelete: () -> Unit,
     viewModel: LightEditViewModel = viewModel(factory = SmartHomeViewModelFactory)
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -31,13 +32,13 @@ fun LightEditScreen(
         onConfirmEdit = {
             coroutineScope.launch {
                 viewModel.updateLight()
-                navigateBack()
+                navigateBackAfterEdit()
             }
         },
         onConfirmDelete = {
             coroutineScope.launch {
                 viewModel.deleteLight()
-                navigateToLights()
+                navigateBackAfterDelete()
             }
         }
     )

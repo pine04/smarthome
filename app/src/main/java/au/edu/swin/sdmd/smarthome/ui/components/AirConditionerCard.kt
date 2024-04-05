@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import au.edu.swin.sdmd.smarthome.data.airconditioner.AirConditioner
 import au.edu.swin.sdmd.smarthome.ui.theme.AppTheme
 
+// A card that can be clicked on to go to the air conditioner control screen.
 @Composable
 fun AirConditionerItem(
     airConditioner: AirConditioner,

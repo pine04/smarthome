@@ -7,7 +7,6 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import au.edu.swin.sdmd.smarthome.AppThemeViewModel
 import au.edu.swin.sdmd.smarthome.MainApplication
-import au.edu.swin.sdmd.smarthome.data.Room
 import au.edu.swin.sdmd.smarthome.ui.airconditioner.AirConditionerControlsViewModel
 import au.edu.swin.sdmd.smarthome.ui.airconditioner.AirConditionerEditViewModel
 import au.edu.swin.sdmd.smarthome.ui.airconditioner.AirConditionersViewModel
@@ -20,8 +19,8 @@ import au.edu.swin.sdmd.smarthome.ui.light.LightsViewModel
 import au.edu.swin.sdmd.smarthome.ui.rooms.RoomsViewModel
 import au.edu.swin.sdmd.smarthome.ui.rooms.SingleRoomViewModel
 import au.edu.swin.sdmd.smarthome.ui.settings.SettingsViewModel
-import java.lang.IllegalArgumentException
 
+// A Factory object used to create ViewModels. This factory is needed to add parameters to the view models' classes' constructors.
 @Suppress("UNCHECKED_CAST")
 val SmartHomeViewModelFactory = object : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T =

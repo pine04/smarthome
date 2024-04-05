@@ -12,6 +12,7 @@ import au.edu.swin.sdmd.smarthome.data.airconditioner.FanSpeed
 import au.edu.swin.sdmd.smarthome.data.light.Light
 import au.edu.swin.sdmd.smarthome.data.light.LightDao
 
+// Responsible for creating and storing an instance of the database.
 @Database(entities = [Light::class, AirConditioner::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class SmartHomeDatabase : RoomDatabase() {
@@ -33,6 +34,7 @@ abstract class SmartHomeDatabase : RoomDatabase() {
     }
 }
 
+// Specifies converters to convert between FanSpeed and String.
 class Converters {
     @TypeConverter
     fun FanSpeedToString(fanSpeed: FanSpeed?): String? {
