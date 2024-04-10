@@ -7,6 +7,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import au.edu.swin.sdmd.smarthome.R
@@ -27,12 +30,29 @@ fun OnOffButton(
 
     Button(
         onClick = { setIsOn(!isOn) },
-        modifier = modifier.size(192.dp),
-        colors = buttonColors
+        modifier = modifier
+            .size(192.dp)
+            .semantics {
+                stateDescription = if (isOn) {
+                    "On"
+                } else {
+                    "Off"
+                }
+
+                onClick(
+                    label = if (isOn) {
+                        "Turn off"
+                    } else {
+                        "Turn on"
+                    },
+                    action = null
+                )
+            },
+        colors = buttonColors,
     ) {
         Icon(
             painter = painterResource(id = R.drawable.mode_off_on_24px),
-            contentDescription = "",
+            contentDescription = null,
             modifier = Modifier.size(96.dp)
         )
     }

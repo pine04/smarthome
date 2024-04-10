@@ -12,8 +12,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import au.edu.swin.sdmd.smarthome.R
 import au.edu.swin.sdmd.smarthome.data.airconditioner.AirConditioner
 import au.edu.swin.sdmd.smarthome.ui.theme.AppTheme
 
@@ -28,7 +32,11 @@ fun AirConditionerItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { navigateToAirConditionerControls(airConditioner.id) }
+            .clickable(onClickLabel = stringResource(R.string.go_to_controls)) {
+                navigateToAirConditionerControls(
+                    airConditioner.id
+                )
+            }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -46,12 +54,41 @@ fun AirConditionerItem(
                     text = airConditioner.location,
                     style = MaterialTheme.typography.bodyMedium
                 )
+
+                Row(modifier = Modifier.padding(top = 8.dp)) {
+                    Text(
+                        text = stringResource(if (airConditioner.isOn) R.string.on else R.string.off),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+
+                    val temperature = "%.1f".format(airConditioner.temperature)
+                    Text(
+                        text = "Temperature $temperature°C",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(horizontal = 12.dp)
+                    )
+
+                    Text(
+                        text = "Fan ${airConditioner.fanSpeed}",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
 
             Switch(
                 checked = airConditioner.isOn,
                 onCheckedChange = { toggleAirConditioner(!airConditioner.isOn) },
-                modifier = Modifier.padding(start = 16.dp)
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .semantics {
+                        onClick(
+                            label = if (airConditioner.isOn) {
+                                "turn off ${airConditioner.name}"
+                            } else {
+                                "turn on ${airConditioner.name}"
+                            }, action = null
+                        )
+                    }
             )
         }
     }

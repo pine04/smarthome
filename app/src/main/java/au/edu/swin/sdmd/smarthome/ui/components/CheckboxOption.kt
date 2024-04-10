@@ -12,6 +12,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.unit.dp
 
 // A wrapper around a checkbox. Has text which can be clicked on to toggle the checkbox.
@@ -31,7 +34,15 @@ fun CheckboxOption(
             onClick = onClick,
             interactionSource = interactionSource,
             indication = null
-        )
+        ).semantics {
+            stateDescription = if (selected) {
+                "Checked"
+            } else {
+                "Unchecked"
+            }
+
+            onClick(label = "check", action = null)
+        }
     ) {
         Checkbox(
             checked = selected,

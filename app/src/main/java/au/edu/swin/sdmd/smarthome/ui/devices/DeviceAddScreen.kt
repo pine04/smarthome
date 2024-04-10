@@ -19,6 +19,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import au.edu.swin.sdmd.smarthome.R
@@ -68,13 +70,19 @@ fun DeviceAddScreen(
 
             ExposedDropdownMenu(
                 expanded = deviceDropdownExpanded,
-                onDismissRequest = { deviceDropdownExpanded = false }) {
+                onDismissRequest = { deviceDropdownExpanded = false },
+                modifier = Modifier
+            ) {
+                val selectLabel = stringResource(R.string.select)
                 deviceOptions.map { option ->
                     DropdownMenuItem(
                         text = { Text(text = option) },
                         onClick = {
                             viewModel.updateDeviceDetails(details.copy(deviceType = option))
                             deviceDropdownExpanded = false
+                        },
+                        modifier = Modifier.semantics {
+                            onClick(label = selectLabel, action = null)
                         }
                     )
                 }
@@ -101,13 +109,18 @@ fun DeviceAddScreen(
 
             ExposedDropdownMenu(
                 expanded = roomDropdownExpanded,
-                onDismissRequest = { roomDropdownExpanded = false }) {
+                onDismissRequest = { roomDropdownExpanded = false }
+            ) {
+                val selectLabel = stringResource(R.string.select)
                 roomOptions.map { option ->
                     DropdownMenuItem(
                         text = { Text(text = option) },
                         onClick = {
                             viewModel.updateDeviceDetails(details.copy(room = option))
                             roomDropdownExpanded = false
+                        },
+                        modifier = Modifier.semantics {
+                            onClick(label = selectLabel, action = null)
                         }
                     )
                 }
@@ -118,6 +131,7 @@ fun DeviceAddScreen(
             value = details.deviceName,
             onValueChange = { viewModel.updateDeviceDetails(details.copy(deviceName = it)) },
             label = { Text(stringResource(R.string.device_name)) },
+            singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
 

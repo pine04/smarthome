@@ -9,6 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import au.edu.swin.sdmd.smarthome.AirConditionersDestination
 import au.edu.swin.sdmd.smarthome.DeviceAddDestination
@@ -30,9 +32,11 @@ fun SmartHomeFloatingActionButton(
         DevicesDestination, LightsDestination, AirConditionersDestination, SingleRoomDestination -> {
             ExtendedFloatingActionButton(
                 onClick = { navigateTo(DeviceAddDestination.route) },
-                icon = { Icon(imageVector = Icons.Filled.Add, contentDescription = "") },
+                icon = { Icon(imageVector = Icons.Filled.Add, contentDescription = null) },
                 text = { Text(text = stringResource(id = R.string.fab), style = MaterialTheme.typography.labelLarge) },
-                modifier = modifier
+                modifier = modifier.semantics {
+                    contentDescription = "Add a new device"
+                }
             )
         }
     }

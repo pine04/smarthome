@@ -36,7 +36,7 @@
     <string name="room">Room</string>
     <string name="device_name">Device name</string>
     <string name="add_device">Add device</string>
-    <string name="active">%1$s/%2$s active</string>
+    <string name="active">%1$s of %2$s active</string>
     <string name="you_do_not_have_any_air_conditioners_in_your_home">You do not have any air conditioners in your home.</string>
     <string name="temperature_c">Temperature: %1$s°C</string>
     <string name="fan_speed">Fan speed</string>
@@ -47,4 +47,12 @@
     <string name="no">No</string>
     <string name="remove_from_home">Remove from home</string>
     <string name="edit">Edit</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="select">select</string>
+    <string name="go_to_list">go to list</string>
+    <string name="go_to_controls">go to controls</string>
+    <string name="no_devices_in_this_room">No devices in this room</string>
+    <string name="of_device_s_active">%1$s of %2$s device(s) active</string>
+    <string name="view_devices_in_room">view devices in room</string>
 </resources>

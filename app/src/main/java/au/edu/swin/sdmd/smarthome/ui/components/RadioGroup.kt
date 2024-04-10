@@ -15,8 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import au.edu.swin.sdmd.smarthome.R
 
 // A group of related radio options.
 @Composable
@@ -39,6 +43,7 @@ fun RadioOption(
     modifier: Modifier = Modifier
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+    val selectLabel = stringResource(id = R.string.select)
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -51,6 +56,12 @@ fun RadioOption(
                 onClick = onClick,
                 role = Role.RadioButton
             )
+            .semantics {
+                onClick(
+                    label = selectLabel,
+                    action = null
+                )
+            }
     ) {
         RadioButton(
             selected = selected,

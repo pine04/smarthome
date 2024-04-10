@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import au.edu.swin.sdmd.smarthome.R
@@ -45,17 +46,19 @@ fun LightControlsScreen(
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Text(
-            text = uiState.name,
-            style = MaterialTheme.typography.displayLarge,
-            modifier = Modifier.fillMaxWidth()
-        )
+        Column(modifier = Modifier.semantics(mergeDescendants = true) { }) {
+            Text(
+                text = uiState.name,
+                style = MaterialTheme.typography.displayLarge,
+                modifier = Modifier.fillMaxWidth()
+            )
 
-        Text(
-            text = uiState.location,
-            style = MaterialTheme.typography.displayMedium,
-            modifier = Modifier.fillMaxWidth()
-        )
+            Text(
+                text = uiState.location,
+                style = MaterialTheme.typography.displayMedium,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         OnOffButton(
             isOn = uiState.isOn,
@@ -68,24 +71,26 @@ fun LightControlsScreen(
             modifier = Modifier.padding(vertical = 32.dp)
         )
 
-        Text(
-            text = stringResource(R.string.brightness),
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.fillMaxWidth()
-        )
+        Column(modifier = Modifier.semantics(mergeDescendants = true) { }) {
+            Text(
+                text = stringResource(R.string.brightness),
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.fillMaxWidth()
+            )
 
-        Slider(
-            value = brightness,
-            valueRange = 0f..1f,
-            steps = 8,
-            onValueChange = { brightness = it },
-            onValueChangeFinished = {
-                coroutineScope.launch {
-                    viewModel.updateLight(uiState.copy(brightness = brightness))
-                    showSnackbarMessage("Adjusted light brightness.")
+            Slider(
+                value = brightness,
+                valueRange = 0f..1f,
+                steps = 8,
+                onValueChange = { brightness = it },
+                onValueChangeFinished = {
+                    coroutineScope.launch {
+                        viewModel.updateLight(uiState.copy(brightness = brightness))
+                        showSnackbarMessage("Adjusted light brightness.")
+                    }
                 }
-            }
-        )
+            )
+        }
 
         CheckboxOption(
             selected = uiState.isFavorite,

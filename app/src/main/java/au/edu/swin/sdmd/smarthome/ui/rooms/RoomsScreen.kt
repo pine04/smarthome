@@ -66,7 +66,11 @@ fun RoomTab(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.clickable { navigateToRoom(roomIdentifier) }
+        modifier = modifier.clickable(onClickLabel = stringResource(R.string.view_devices_in_room)) {
+            navigateToRoom(
+                roomIdentifier
+            )
+        }
     ) {
         Column(
             modifier = Modifier
@@ -75,7 +79,7 @@ fun RoomTab(
         ) {
             Icon(
                 painter = painterResource(id = iconResId),
-                contentDescription = "",
+                contentDescription = null,
                 modifier = Modifier.size(48.dp)
             )
 
@@ -87,9 +91,9 @@ fun RoomTab(
 
             Text(
                 text = if (totalDeviceCount == 0) {
-                    "No devices in this room"
+                    stringResource(R.string.no_devices_in_this_room)
                 } else {
-                    "$activeDeviceCount/$totalDeviceCount device(s) active"
+                    stringResource(R.string.of_device_s_active, activeDeviceCount, totalDeviceCount)
                 },
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -104,49 +108,49 @@ interface RoomTab {
     val stringResId: Int
 }
 
-object LivingRoom: RoomTab {
+object LivingRoom : RoomTab {
     override val destination = "LivingRoom"
     override val roomSearchArgument = "Living Room"
     override val iconResId = R.drawable.living_room_24px
     override val stringResId = R.string.living_room
 }
 
-object Bedroom: RoomTab {
+object Bedroom : RoomTab {
     override val destination = "Bedroom"
     override val roomSearchArgument = "Bedroom"
     override val iconResId = R.drawable.bedroom_24px
     override val stringResId = R.string.bedroom
 }
 
-object Bathroom: RoomTab {
+object Bathroom : RoomTab {
     override val destination = "Bathroom"
     override val roomSearchArgument = "Bathroom"
     override val iconResId = R.drawable.bathroom_24px
     override val stringResId = R.string.bathroom
 }
 
-object Kitchen: RoomTab {
+object Kitchen : RoomTab {
     override val destination = "Kitchen"
     override val roomSearchArgument = "Kitchen"
     override val iconResId = R.drawable.kitchen_24px
     override val stringResId = R.string.kitchen
 }
 
-object Hallway: RoomTab {
+object Hallway : RoomTab {
     override val destination = "Hallway"
     override val roomSearchArgument = "Hallway"
     override val iconResId = R.drawable.hallway_24px
     override val stringResId = R.string.hallway
 }
 
-object Garage: RoomTab {
+object Garage : RoomTab {
     override val destination = "Garage"
     override val roomSearchArgument = "Garage"
     override val iconResId = R.drawable.garage_24px
     override val stringResId = R.string.garage
 }
 
-object Attic: RoomTab {
+object Attic : RoomTab {
     override val destination = "Attic"
     override val roomSearchArgument = "Attic"
     override val iconResId = R.drawable.attic_24px

@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -40,7 +42,9 @@ fun DevicesScreen(
 
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier.padding(16.dp)
+        modifier = modifier
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         DeviceCategory(
             iconResId = R.drawable.light_bulb_24px,
@@ -71,7 +75,7 @@ fun DeviceCategory(
 ) {
     Card(
         modifier = modifier
-            .clickable { navigateToCategory() }
+            .clickable(onClickLabel = stringResource(R.string.go_to_list)) { navigateToCategory() }
             .fillMaxWidth()
     ) {
         Row(

@@ -15,7 +15,7 @@ class RoomsViewModel(
     private val airConditionerRepository: AirConditionerRepository
 ) : ViewModel() {
     val roomFlows = rooms.associate { room ->
-        room.roomSearchArgument to getStateFlowForRoom(room.roomSearchArgument)
+        room.destination to getStateFlowForRoom(room.roomSearchArgument)
     }
 
     private fun getStateFlowForRoom(room: String): StateFlow<RoomDeviceCount> {
