@@ -80,15 +80,7 @@ fun AirConditionerItem(
                 onCheckedChange = { toggleAirConditioner(!airConditioner.isOn) },
                 modifier = Modifier
                     .padding(start = 16.dp)
-                    .semantics {
-                        onClick(
-                            label = if (airConditioner.isOn) {
-                                "turn off ${airConditioner.name}"
-                            } else {
-                                "turn on ${airConditioner.name}"
-                            }, action = null
-                        )
-                    }
+
             )
         }
     }
