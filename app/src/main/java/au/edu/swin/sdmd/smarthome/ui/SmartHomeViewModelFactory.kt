@@ -7,8 +7,6 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import au.edu.swin.sdmd.smarthome.AppThemeViewModel
 import au.edu.swin.sdmd.smarthome.MainApplication
-import au.edu.swin.sdmd.smarthome.MessageList
-import au.edu.swin.sdmd.smarthome.MessageListViewModel
 import au.edu.swin.sdmd.smarthome.ui.airconditioner.AirConditionerControlsViewModel
 import au.edu.swin.sdmd.smarthome.ui.airconditioner.AirConditionerEditViewModel
 import au.edu.swin.sdmd.smarthome.ui.airconditioner.AirConditionersViewModel
@@ -33,8 +31,8 @@ val SmartHomeViewModelFactory = object : ViewModelProvider.Factory {
             val lightRepository = application.container.lightRepository
             val airConditionersRepository = application.container.airConditionerRepository
             val userPreferencesRepository = application.container.userPreferencesRepository
-            val temperatureRepository = application.container.temperatureRepository
-            val humidityRepository = application.container.humidityRepository
+            val temperatureSensorRepository = application.container.temperatureSensorRepository
+            val humiditySensorRepository = application.container.humiditySensorRepository
             val lightSensorRepository = application.container.lightSensorRepository
 
             when {
@@ -42,8 +40,8 @@ val SmartHomeViewModelFactory = object : ViewModelProvider.Factory {
                     HomeViewModel(
                         lightRepository,
                         airConditionersRepository,
-                        temperatureRepository,
-                        humidityRepository,
+                        temperatureSensorRepository,
+                        humiditySensorRepository,
                         lightSensorRepository,
                         userPreferencesRepository
                     )
@@ -120,10 +118,6 @@ val SmartHomeViewModelFactory = object : ViewModelProvider.Factory {
 
                 isAssignableFrom(AppThemeViewModel::class.java) -> {
                     AppThemeViewModel(userPreferencesRepository)
-                }
-
-                isAssignableFrom(MessageListViewModel::class.java) -> {
-                    MessageListViewModel(temperatureRepository)
                 }
 
                 else -> throw IllegalArgumentException("Invalid ViewModel class: ${modelClass.name}")

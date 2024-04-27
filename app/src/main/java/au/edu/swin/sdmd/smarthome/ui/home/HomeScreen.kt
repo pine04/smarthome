@@ -2,7 +2,6 @@ package au.edu.swin.sdmd.smarthome.ui.home
 
 import android.icu.text.SimpleDateFormat
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +14,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -33,9 +33,8 @@ import au.edu.swin.sdmd.smarthome.ui.components.AirConditionerItem
 import au.edu.swin.sdmd.smarthome.ui.components.LightItem
 import au.edu.swin.sdmd.smarthome.ui.theme.AppTheme
 import kotlinx.coroutines.launch
-import java.util.Locale
 import java.util.Date
-
+import java.util.Locale
 
 // The app's home screen.
 @Composable
@@ -47,9 +46,15 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel(factory = SmartHomeViewModelFactory)
 ) {
     val uiState = viewModel.uiState.collectAsState().value
+
     val temperatureData = viewModel.temperature.collectAsState().value
     val humidityData = viewModel.humidity.collectAsState().value
     val lightData = viewModel.light.collectAsState().value
+
+    val temperatureSensorStatus = viewModel.temperatureSensorStatus.collectAsState().value
+    val humiditySensorStatus = viewModel.humiditySensorStatus.collectAsState().value
+    val lightSensorStatus = viewModel.lightSensorStatus.collectAsState().value
+
     val username = uiState.username
     val favoriteLights = uiState.favoriteLights
     val favoriteAirConditioners = uiState.favoriteAirConditioners
@@ -77,6 +82,14 @@ fun HomeScreen(
                     metricMeasurementText = "${temperatureData.temperature}°C",
                     metricTimeString = "at ${formatter.format(temperatureData.time)}",
                     loading = temperatureData.time.compareTo(Date(0)) == 0,
+                    isOn = temperatureSensorStatus,
+                    setIsOn = { on ->
+                        if (on) {
+                            viewModel.turnOnTemperatureSensor()
+                        } else {
+                            viewModel.turnOffTemperatureSensor()
+                        }
+                    },
                     modifier = Modifier.weight(1f)
                 )
 
@@ -85,6 +98,14 @@ fun HomeScreen(
                     metricMeasurementText = "${humidityData.humidity}%",
                     metricTimeString = "at ${formatter.format(humidityData.time)}",
                     loading = humidityData.time.compareTo(Date(0)) == 0,
+                    isOn = humiditySensorStatus,
+                    setIsOn = { on ->
+                        if (on) {
+                            viewModel.turnOnHumiditySensor()
+                        } else {
+                            viewModel.turnOffHumiditySensor()
+                        }
+                    },
                     modifier = Modifier.weight(1f)
                 )
 
@@ -93,6 +114,14 @@ fun HomeScreen(
                     metricMeasurementText = "${lightData.light} lx",
                     metricTimeString = "at ${formatter.format(lightData.time)}",
                     loading = lightData.time.compareTo(Date(0)) == 0,
+                    isOn = lightSensorStatus,
+                    setIsOn = { on ->
+                        if (on) {
+                          viewModel.turnOnLightSensor()
+                        } else {
+                          viewModel.turnOffLightSensor()
+                        }
+                    },
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -184,7 +213,9 @@ fun MetricCard(
     metricMeasurementText: String,
     metricTimeString: String,
     modifier: Modifier = Modifier,
-    loading: Boolean = false
+    loading: Boolean = false,
+    isOn: Boolean = true,
+    setIsOn: (Boolean) -> Unit = { }
 ) {
     Card(
         modifier = modifier
@@ -198,16 +229,26 @@ fun MetricCard(
                 modifier = Modifier.size(32.dp)
             )
 
-            Text(
-                text = if (loading) "N/A" else metricMeasurementText,
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(vertical = 4.dp)
-            )
+            if (isOn) {
+                Text(
+                    text = if (loading) "N/A" else metricMeasurementText,
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
 
-            Text(
-                text = if (loading) "N/A" else metricTimeString,
-                style = MaterialTheme.typography.bodyMedium
-            )
+                Text(
+                    text = if (loading) "N/A" else metricTimeString,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            } else {
+                Text(
+                    text = "Off",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+            }
+
+            Switch(checked = isOn, onCheckedChange = setIsOn)
         }
     }
 }

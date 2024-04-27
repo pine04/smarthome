@@ -2,18 +2,17 @@ package au.edu.swin.sdmd.smarthome.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import au.edu.swin.sdmd.smarthome.data.SensorRepository
-import au.edu.swin.sdmd.smarthome.data.SmartHomePreferences
 import au.edu.swin.sdmd.smarthome.data.UserPreferencesRepository
 import au.edu.swin.sdmd.smarthome.data.airconditioner.AirConditioner
 import au.edu.swin.sdmd.smarthome.data.airconditioner.AirConditionerRepository
 import au.edu.swin.sdmd.smarthome.data.light.Light
 import au.edu.swin.sdmd.smarthome.data.light.LightRepository
-import au.edu.swin.sdmd.smarthome.data.sensor_humidity.HumidityData
-import au.edu.swin.sdmd.smarthome.data.sensor_humidity.HumidityRepository
-import au.edu.swin.sdmd.smarthome.data.sensor_light.LightData
-import au.edu.swin.sdmd.smarthome.data.sensor_temperature.TemperatureData
-import au.edu.swin.sdmd.smarthome.data.sensor_temperature.TemperatureRepository
+import au.edu.swin.sdmd.smarthome.data.sensor_humidity.HumiditySensorData
+import au.edu.swin.sdmd.smarthome.data.sensor_humidity.HumiditySensorRepository
+import au.edu.swin.sdmd.smarthome.data.sensor_light.LightSensorData
+import au.edu.swin.sdmd.smarthome.data.sensor_light.LightSensorRepository
+import au.edu.swin.sdmd.smarthome.data.sensor_temperature.TemperatureSensorData
+import au.edu.swin.sdmd.smarthome.data.sensor_temperature.TemperatureSensorRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -24,9 +23,9 @@ import kotlinx.coroutines.flow.stateIn
 class HomeViewModel(
     private val lightRepository: LightRepository,
     private val airConditionerRepository: AirConditionerRepository,
-    temperatureRepository: TemperatureRepository,
-    humidityRepository: HumidityRepository,
-    lightSensorRepository: au.edu.swin.sdmd.smarthome.data.sensor_light.LightRepository,
+    private val temperatureSensorRepository: TemperatureSensorRepository,
+    private val humiditySensorRepository: HumiditySensorRepository,
+    private val lightSensorRepository: LightSensorRepository,
     userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
     val uiState: StateFlow<HomeScreenUiState> = combine(
@@ -45,22 +44,40 @@ class HomeViewModel(
         initialValue = HomeScreenUiState()
     )
 
-    val temperature: StateFlow<TemperatureData> = temperatureRepository.getTemperature().map { it }.stateIn(
+    val temperature: StateFlow<TemperatureSensorData> = temperatureSensorRepository.getTemperatureData().map { it }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = TemperatureData()
+        initialValue = TemperatureSensorData()
     )
 
-    val humidity: StateFlow<HumidityData> = humidityRepository.getHumidity().map { it }.stateIn(
+    val humidity: StateFlow<HumiditySensorData> = humiditySensorRepository.getHumidityData().map { it }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = HumidityData()
+        initialValue = HumiditySensorData()
     )
 
-    val light: StateFlow<LightData> = lightSensorRepository.getLight().map { it }.stateIn(
+    val light: StateFlow<LightSensorData> = lightSensorRepository.getLightData().map { it }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = LightData()
+        initialValue = LightSensorData()
+    )
+    
+    val temperatureSensorStatus: StateFlow<Boolean> = temperatureSensorRepository.getTemperatureSensorStatus().map { it }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = true
+    )
+
+    val humiditySensorStatus: StateFlow<Boolean> = humiditySensorRepository.getHumiditySensorStatus().map { it }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = true
+    )
+
+    val lightSensorStatus: StateFlow<Boolean> = lightSensorRepository.getLightSensorStatus().map { it }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000L),
+        initialValue = true
     )
 
     suspend fun updateLight(light: Light) {
@@ -69,6 +86,30 @@ class HomeViewModel(
 
     suspend fun updateAirConditioner(airConditioner: AirConditioner) {
         airConditionerRepository.update(airConditioner)
+    }
+
+    fun turnOnTemperatureSensor() {
+        temperatureSensorRepository.turnOnSensor()
+    }
+
+    fun turnOffTemperatureSensor() {
+        temperatureSensorRepository.turnOffSensor()
+    }
+
+    fun turnOnHumiditySensor() {
+        humiditySensorRepository.turnOnSensor()
+    }
+
+    fun turnOffHumiditySensor() {
+        humiditySensorRepository.turnOffSensor()
+    }
+
+    fun turnOnLightSensor() {
+        lightSensorRepository.turnOnSensor()
+    }
+
+    fun turnOffLightSensor() {
+        lightSensorRepository.turnOffSensor()
     }
 }
 

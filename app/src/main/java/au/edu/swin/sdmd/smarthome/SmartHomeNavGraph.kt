@@ -352,11 +352,6 @@ object AirConditionerEditDestination : NavigationDestination {
     )
 }
 
-object MessageDestination : NavigationDestination {
-    override val route = "messages"
-    override val titleResId = R.string.messages
-}
-
 // An array containing the destination objects defined above.
 val destinations = listOf(
     HomeDestination,
@@ -370,6 +365,5 @@ val destinations = listOf(
     LightControlsDestination,
     LightEditDestination,
     AirConditionerControlsDestination,
-    AirConditionerEditDestination,
-    MessageDestination
+    AirConditionerEditDestination
 )

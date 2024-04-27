@@ -6,10 +6,9 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import au.edu.swin.sdmd.smarthome.data.airconditioner.OfflineAirConditionerRepository
 import au.edu.swin.sdmd.smarthome.data.light.OfflineLightRepository
-import au.edu.swin.sdmd.smarthome.data.sensor_humidity.MQTTHumidityRepository
-import au.edu.swin.sdmd.smarthome.data.sensor_light.MQTTLightRepository
-import au.edu.swin.sdmd.smarthome.data.sensor_temperature.MQTTTemperatureRepository
-import kotlinx.coroutines.CoroutineScope
+import au.edu.swin.sdmd.smarthome.data.sensor_humidity.MQTTHumiditySensorRepository
+import au.edu.swin.sdmd.smarthome.data.sensor_light.MQTTLightSensorRepository
+import au.edu.swin.sdmd.smarthome.data.sensor_temperature.MQTTTemperatureSensorRepository
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = "user_preferences"
@@ -31,15 +30,15 @@ class AppContainer(private val context: Context) {
 
     private val sensorDataSource = SensorDataSource(context)
 
-    val temperatureRepository by lazy {
-        MQTTTemperatureRepository(sensorDataSource)
+    val temperatureSensorRepository by lazy {
+        MQTTTemperatureSensorRepository(sensorDataSource)
     }
 
-    val humidityRepository by lazy {
-        MQTTHumidityRepository(sensorDataSource)
+    val humiditySensorRepository by lazy {
+        MQTTHumiditySensorRepository(sensorDataSource)
     }
 
     val lightSensorRepository by lazy {
-        MQTTLightRepository(sensorDataSource)
+        MQTTLightSensorRepository(sensorDataSource)
     }
 }
