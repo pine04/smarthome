@@ -1,25 +1,25 @@
 package au.edu.swin.sdmd.smarthome.data.sensor_humidity
 
 import android.util.Log
+import au.edu.swin.sdmd.smarthome.data.SensorData
 import au.edu.swin.sdmd.smarthome.data.SensorDataSource
+import au.edu.swin.sdmd.smarthome.data.SensorRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import java.util.Date
 
-class MQTTHumidityRepository(
-    private val sensorDataSource: SensorDataSource
-) : HumidityRepository {
-    override fun getHumidity(): Flow<HumidityData> {
+class MQTTHumidityRepository (sensorDataSource: SensorDataSource): SensorRepository(sensorDataSource) {
+    override fun getValue(): Flow<SensorData> {
         return sensorDataSource.messageFlow.filter { it.topic == "student/feeds/humidity" }
             .map {
                 val data = it.message.substring(1, it.message.length - 1).split(",")
 
                 Log.d("humidity repo", it.message)
 
-                HumidityData(
+                SensorData(
                     time = Date(data[0].toDouble().toLong() * 1000),
-                    humidity = data[1].toInt()
+                    value = data[1].toInt()
                 )
             }
     }

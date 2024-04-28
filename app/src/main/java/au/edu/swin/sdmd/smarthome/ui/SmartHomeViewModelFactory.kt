@@ -20,6 +20,8 @@ import au.edu.swin.sdmd.smarthome.ui.light.LightEditViewModel
 import au.edu.swin.sdmd.smarthome.ui.light.LightsViewModel
 import au.edu.swin.sdmd.smarthome.ui.rooms.RoomsViewModel
 import au.edu.swin.sdmd.smarthome.ui.rooms.SingleRoomViewModel
+import au.edu.swin.sdmd.smarthome.ui.sensors.SensorsViewModel
+import au.edu.swin.sdmd.smarthome.ui.sensors.SingleSensorViewModel
 import au.edu.swin.sdmd.smarthome.ui.settings.SettingsViewModel
 
 // A Factory object used to create ViewModels. This factory is needed to add parameters to the view models' classes' constructors.
@@ -115,6 +117,23 @@ val SmartHomeViewModelFactory = object : ViewModelProvider.Factory {
                         stateHandle,
                         lightRepository,
                         airConditionersRepository
+                    )
+                }
+
+                isAssignableFrom(SensorsViewModel::class.java) -> {
+                    SensorsViewModel(
+                        temperatureRepository,
+                        humidityRepository,
+                        lightSensorRepository
+                    )
+                }
+
+                isAssignableFrom(SingleSensorViewModel::class.java) -> {
+                    SingleSensorViewModel(
+                        stateHandle,
+                        temperatureRepository,
+                        humidityRepository,
+                        lightSensorRepository
                     )
                 }
 

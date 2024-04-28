@@ -56,4 +56,6 @@
     <string name="of_device_s_active">%1$s of %2$s device(s) active</string>
     <string name="view_devices_in_room">view devices in room</string>
     <string name="messages">Messages</string>
+    <string name="sensors">Sensors</string>
+    <string name="sensor">Sensor</string>
 </resources>

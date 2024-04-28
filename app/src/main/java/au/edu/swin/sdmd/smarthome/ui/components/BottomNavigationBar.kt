@@ -15,6 +15,7 @@ import au.edu.swin.sdmd.smarthome.HomeDestination
 import au.edu.swin.sdmd.smarthome.NavigationDestination
 import au.edu.swin.sdmd.smarthome.R
 import au.edu.swin.sdmd.smarthome.RoomsDestination
+import au.edu.swin.sdmd.smarthome.SensorsDestination
 import au.edu.swin.sdmd.smarthome.SettingsDestination
 import au.edu.swin.sdmd.smarthome.ui.theme.AppTheme
 
@@ -27,6 +28,7 @@ private val bottomNavigationDestinations = arrayOf(
     BottomNavigationDestination(HomeDestination, R.drawable.home_24px),
     BottomNavigationDestination(DevicesDestination, R.drawable.light_bulb_24px),
     BottomNavigationDestination(RoomsDestination, R.drawable.room_24px),
+    BottomNavigationDestination(SensorsDestination, R.drawable.device_thermostat_24px),
     BottomNavigationDestination(SettingsDestination, R.drawable.settings_24px)
 )
 
@@ -34,6 +36,7 @@ val destinationsWithBottomNav = arrayOf(
     HomeDestination,
     DevicesDestination,
     RoomsDestination,
+    SensorsDestination,
     SettingsDestination
 )
 
