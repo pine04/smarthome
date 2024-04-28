@@ -411,7 +411,7 @@ public class MqttAndroidClient extends BroadcastReceiver implements
 		if (mqttService == null) { // First time - must bind to the service
 			Intent serviceStartIntent = new Intent();
 			serviceStartIntent.setClassName(myContext, SERVICE_NAME);
-			Object service = myContext.startService(serviceStartIntent);
+			Object service = myContext.startForegroundService(serviceStartIntent);
 			if (service == null) {
 				IMqttActionListener listener = token.getActionCallback();
 				if (listener != null) {

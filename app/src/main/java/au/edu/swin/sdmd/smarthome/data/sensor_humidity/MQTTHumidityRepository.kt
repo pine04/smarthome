@@ -11,7 +11,7 @@ class MQTTHumidityRepository(
     private val sensorDataSource: SensorDataSource
 ) : HumidityRepository {
     override fun getHumidity(): Flow<HumidityData> {
-        return sensorDataSource.messageFlow.filter { it.topic == "yourID/feeds/humidity" }
+        return sensorDataSource.messageFlow.filter { it.topic == "student/feeds/humidity" }
             .map {
                 val data = it.message.substring(1, it.message.length - 1).split(",")
 

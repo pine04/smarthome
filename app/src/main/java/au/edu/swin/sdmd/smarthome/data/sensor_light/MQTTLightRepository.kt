@@ -11,7 +11,7 @@ class MQTTLightRepository(
     private val sensorDataSource: SensorDataSource
 ) : LightRepository {
     override fun getLight(): Flow<LightData> {
-        return sensorDataSource.messageFlow.filter { it.topic == "yourID/feeds/light" }
+        return sensorDataSource.messageFlow.filter { it.topic == "student/feeds/light" }
             .map {
                 val data = it.message.substring(1, it.message.length - 1).split(",")
 

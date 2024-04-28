@@ -4,23 +4,29 @@ import android.icu.text.SimpleDateFormat
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +38,19 @@ import au.edu.swin.sdmd.smarthome.ui.SmartHomeViewModelFactory
 import au.edu.swin.sdmd.smarthome.ui.components.AirConditionerItem
 import au.edu.swin.sdmd.smarthome.ui.components.LightItem
 import au.edu.swin.sdmd.smarthome.ui.theme.AppTheme
+import co.yml.charts.axis.AxisData
+import co.yml.charts.common.extensions.formatToSinglePrecision
+import co.yml.charts.ui.linechart.LineChart
+import co.yml.charts.ui.linechart.model.GridLines
+import co.yml.charts.ui.linechart.model.IntersectionPoint
+import co.yml.charts.ui.linechart.model.Line
+import co.yml.charts.ui.linechart.model.LineChartData
+import co.yml.charts.ui.linechart.model.LinePlotData
+import co.yml.charts.ui.linechart.model.LineStyle
+import co.yml.charts.ui.linechart.model.LineType
+import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
+import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
+import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.Date
@@ -56,6 +75,118 @@ fun HomeScreen(
 
     val scope = rememberCoroutineScope()
     val formatter = SimpleDateFormat("hh:mm:ss", Locale.getDefault())
+
+//    Values for chart
+    val getTempData =  viewModel.listTemp
+    val steps = 5
+    val xAxisTempData = AxisData.Builder()
+        .axisStepSize(30.dp)
+        .steps(getTempData.size - 1)
+        .labelData { i -> i.toString() }
+        .labelAndAxisLinePadding(15.dp)
+        .build()
+    val yAxisTempData = AxisData.Builder()
+        .steps(steps)
+        .labelAndAxisLinePadding(30.dp)
+        .labelData { i ->
+            // Add yMin to get the negative axis values to the scale
+            val yMin = getTempData.minOf { it.y }
+            val yMax = getTempData.maxOf { it.y }
+            val yScale = (yMax - yMin) / steps
+            ((i * yScale) + yMin).formatToSinglePrecision()
+        }
+        .build()
+    val tempChartData = LineChartData(
+        linePlotData = LinePlotData(
+            lines = listOf(
+                Line(
+                    dataPoints = getTempData,
+                    LineStyle(lineType = LineType.SmoothCurve()),
+                    IntersectionPoint(),
+                    SelectionHighlightPoint(),
+                    ShadowUnderLine(),
+                    SelectionHighlightPopUp()
+                )
+            )
+        ),
+        xAxisData = xAxisTempData,
+        yAxisData = yAxisTempData,
+        gridLines = GridLines()
+    )
+
+
+    val getHumiData =  viewModel.listHumi
+    val xAxisHumiData = AxisData.Builder()
+        .axisStepSize(30.dp)
+        .steps(getHumiData.size - 1)
+        .labelData { i -> i.toString() }
+        .labelAndAxisLinePadding(15.dp)
+        .build()
+    val yAxisHumiData = AxisData.Builder()
+        .steps(steps)
+        .labelAndAxisLinePadding(30.dp)
+        .labelData { i ->
+            // Add yMin to get the negative axis values to the scale
+            val yMin = getHumiData.minOf { it.y }
+            val yMax = getHumiData.maxOf { it.y }
+            val yScale = (yMax - yMin) / steps
+            ((i * yScale) + yMin).formatToSinglePrecision()
+        }
+        .build()
+    val humiChartData = LineChartData(
+        linePlotData = LinePlotData(
+            lines = listOf(
+                Line(
+                    dataPoints = getHumiData,
+                    LineStyle(lineType = LineType.SmoothCurve()),
+                    IntersectionPoint(),
+                    SelectionHighlightPoint(),
+                    ShadowUnderLine(),
+                    SelectionHighlightPopUp()
+                )
+            )
+        ),
+        xAxisData = xAxisHumiData,
+        yAxisData = yAxisHumiData,
+        gridLines = GridLines()
+    )
+
+
+    val getLightData =  viewModel.listLight
+    val xAxisLightData = AxisData.Builder()
+        .axisStepSize(30.dp)
+        .steps(getLightData.size - 1)
+        .labelData { i -> i.toString() }
+        .labelAndAxisLinePadding(15.dp)
+        .build()
+    val yAxisLightData = AxisData.Builder()
+        .steps(steps)
+        .labelAndAxisLinePadding(30.dp)
+        .labelData { i ->
+            // Add yMin to get the negative axis values to the scale
+            val yMin = getLightData.minOf { it.y }
+            val yMax = getLightData.maxOf { it.y }
+            val yScale = (yMax - yMin) / steps
+            ((i * yScale) + yMin).formatToSinglePrecision()
+        }
+        .build()
+    val lightChartData = LineChartData(
+        linePlotData = LinePlotData(
+            lines = listOf(
+                Line(
+                    dataPoints = getLightData,
+                    LineStyle(lineType = LineType.SmoothCurve()),
+                    IntersectionPoint(),
+                    SelectionHighlightPoint(),
+                    ShadowUnderLine(),
+                    SelectionHighlightPopUp()
+                )
+            )
+        ),
+        xAxisData = xAxisLightData,
+        yAxisData = yAxisLightData,
+        gridLines = GridLines()
+    )
 
     LazyColumn(
         modifier = Modifier.padding(16.dp),
@@ -94,6 +225,88 @@ fun HomeScreen(
                     metricTimeString = "at ${formatter.format(lightData.time)}",
                     loading = lightData.time.compareTo(Date(0)) == 0,
                     modifier = Modifier.weight(1f)
+                )
+            }
+        }
+
+
+        item {
+            Column(
+                modifier = Modifier.fillMaxWidth().wrapContentHeight()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .height(200.dp),
+                    contentAlignment = Alignment.TopCenter
+                ) {
+
+                    LineChart(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp),
+                        lineChartData = tempChartData
+                    )
+                }
+                Text(
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+                    text = "Temperature change",
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+
+        item {
+            Column(
+                modifier = Modifier.fillMaxWidth().wrapContentHeight()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .height(200.dp),
+                    contentAlignment = Alignment.TopCenter
+                ) {
+
+                    LineChart(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp),
+                        lineChartData = humiChartData
+                    )
+                }
+                Text(
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+                    text = "Humidity change",
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+
+        item {
+            Column(
+                modifier = Modifier.fillMaxWidth().wrapContentHeight()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .height(200.dp),
+                    contentAlignment = Alignment.TopCenter
+                ) {
+
+                    LineChart(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp),
+                        lineChartData = lightChartData
+                    )
+                }
+                Text(
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+                    text = "Light change",
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center
                 )
             }
         }

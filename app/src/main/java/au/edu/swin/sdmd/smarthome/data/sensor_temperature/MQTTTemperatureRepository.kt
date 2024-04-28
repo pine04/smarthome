@@ -11,7 +11,7 @@ class MQTTTemperatureRepository(
     private val sensorDataSource: SensorDataSource
 ) : TemperatureRepository {
     override fun getTemperature(): Flow<TemperatureData> {
-        return sensorDataSource.messageFlow.filter { it.topic == "yourID/feeds/temperature" }
+        return sensorDataSource.messageFlow.filter { it.topic == "student/feeds/temperature" }
             .map {
                 val data = it.message.substring(1, it.message.length - 1).split(",")
 

@@ -30,8 +30,9 @@ class SensorDataSource(
         val connectOptions = MqttConnectOptions().apply {
             isAutomaticReconnect = true
             isCleanSession = false
+            userName = "student"
+            password = "student".toCharArray()
         }
-
         try {
             mqttClient.connect(connectOptions, context, object : IMqttActionListener {
                 override fun onSuccess(asyncActionToken: IMqttToken?) {
@@ -118,11 +119,11 @@ class SensorDataSource(
     }
 
     companion object {
-        private const val serverURI = "tcp://10.1.11.215:1883"
-        private const val clientId = "smarthomeapp"
-        private const val temperatureTopic = "yourID/feeds/temperature"
-        private const val lightTopic = "yourID/feeds/light"
-        private const val humidityTopic = "yourID/feeds/humidity"
+        private const val serverURI = "tcp://192.168.1.4:1883"
+        private const val clientId = "student"
+        private const val temperatureTopic = "student/feeds/temperature"
+        private const val lightTopic = "student/feeds/light"
+        private const val humidityTopic = "student/feeds/humidity"
     }
 }
 

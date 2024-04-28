@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "au.edu.swin.sdmd.smarthome"
-        minSdk 26
+        minSdk 32
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -70,4 +70,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+
+    implementation 'co.yml:ycharts:2.1.0'
 }
