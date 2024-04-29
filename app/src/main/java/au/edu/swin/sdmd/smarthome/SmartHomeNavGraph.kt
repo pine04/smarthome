@@ -29,6 +29,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import au.edu.swin.sdmd.smarthome.ui.airconditioner.AirConditionerControlsScreen
 import au.edu.swin.sdmd.smarthome.ui.airconditioner.AirConditionerEditScreen
+import au.edu.swin.sdmd.smarthome.ui.airconditioner.AirConditionerTriggerAddScreen
+import au.edu.swin.sdmd.smarthome.ui.airconditioner.AirConditionerTriggerEditScreen
 import au.edu.swin.sdmd.smarthome.ui.airconditioner.AirConditionersScreen
 import au.edu.swin.sdmd.smarthome.ui.components.BottomNavigationBar
 import au.edu.swin.sdmd.smarthome.ui.components.SmartHomeFloatingActionButton
@@ -38,6 +40,8 @@ import au.edu.swin.sdmd.smarthome.ui.devices.DevicesScreen
 import au.edu.swin.sdmd.smarthome.ui.home.HomeScreen
 import au.edu.swin.sdmd.smarthome.ui.light.LightControlsScreen
 import au.edu.swin.sdmd.smarthome.ui.light.LightEditScreen
+import au.edu.swin.sdmd.smarthome.ui.light.LightTriggerAddScreen
+import au.edu.swin.sdmd.smarthome.ui.light.LightTriggerEditScreen
 import au.edu.swin.sdmd.smarthome.ui.light.LightsScreen
 import au.edu.swin.sdmd.smarthome.ui.rooms.RoomsScreen
 import au.edu.swin.sdmd.smarthome.ui.rooms.SingleRoomScreen
@@ -214,6 +218,8 @@ fun SmartHomeNavGraph(navController: NavHostController = rememberNavController()
             ) {
                 LightControlsScreen(
                     navigateToLightEdit = { id: Int -> navController.navigate("light_edit/$id") },
+                    navigateToLightTriggerAdd = { id: Int -> navController.navigate("light_trigger_add/$id") },
+                    navigateToLightTriggerEdit = { id: Long -> navController.navigate("light_trigger_edit/$id") },
                     showSnackbarMessage = ::showSnackbarMessage
                 )
             }
@@ -234,6 +240,8 @@ fun SmartHomeNavGraph(navController: NavHostController = rememberNavController()
             ) {
                 AirConditionerControlsScreen(
                     navigateToAirConditionerEdit = { id: Int -> navController.navigate("air_conditioner_edit/$id") },
+                    navigateToAirConditionerTriggerAdd = { id: Int -> navController.navigate("air_conditioner_trigger_add/$id") },
+                    navigateToAirConditionerTriggerEdit = { id: Long -> navController.navigate("air_conditioner_trigger_edit/$id") },
                     showSnackbarMessage = ::showSnackbarMessage
                 )
             }
@@ -255,6 +263,42 @@ fun SmartHomeNavGraph(navController: NavHostController = rememberNavController()
                 SingleRoomScreen(
                     navigateToLightControls = { id -> navController.navigate("light_controls/$id") },
                     navigateToAirConditionerControls = { id -> navController.navigate("air_conditioner_controls/$id") }
+                )
+            }
+
+            composable(
+                route = LightTriggerAddDestination.routeWithArgs,
+                arguments = LightTriggerAddDestination.arguments
+            ) {
+                LightTriggerAddScreen(
+                    navigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(
+                route = LightTriggerEditDestination.routeWithArgs,
+                arguments = LightTriggerEditDestination.arguments
+            ) {
+                LightTriggerEditScreen(
+                    navigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(
+                route = AirConditionerTriggerAddDestination.routeWithArgs,
+                arguments = AirConditionerTriggerAddDestination.arguments
+            ) {
+                AirConditionerTriggerAddScreen(
+                    navigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(
+                route = AirConditionerTriggerEditDestination.routeWithArgs,
+                arguments = AirConditionerTriggerEditDestination.arguments
+            ) {
+                AirConditionerTriggerEditScreen(
+                    navigateBack = { navController.popBackStack() }
                 )
             }
         }
@@ -352,6 +396,46 @@ object AirConditionerEditDestination : NavigationDestination {
     )
 }
 
+object LightTriggerAddDestination : NavigationDestination {
+    override val route = "light_trigger_add"
+    override val titleResId = R.string.add_light_trigger
+    const val lightIdArg = "light_id"
+    val routeWithArgs = "$route/{$lightIdArg}"
+    val arguments = listOf(
+        navArgument(lightIdArg) { type = NavType.IntType }
+    )
+}
+
+object LightTriggerEditDestination : NavigationDestination {
+    override val route = "light_trigger_edit"
+    override val titleResId = R.string.edit_light_trigger
+    const val triggerIdArg = "trigger_id"
+    val routeWithArgs = "${route}/{$triggerIdArg}"
+    val arguments = listOf(
+        navArgument(triggerIdArg) { type = NavType.LongType }
+    )
+}
+
+object AirConditionerTriggerAddDestination : NavigationDestination {
+    override val route = "air_conditioner_trigger_add"
+    override val titleResId = R.string.add_air_conditioner_trigger
+    const val airConditionerIdArg = "air_conditioner_id"
+    val routeWithArgs = "$route/{$airConditionerIdArg}"
+    val arguments = listOf(
+        navArgument(airConditionerIdArg) { type = NavType.IntType }
+    )
+}
+
+object AirConditionerTriggerEditDestination : NavigationDestination {
+    override val route = "air_conditioner_trigger_edit"
+    override val titleResId = R.string.edit_air_conditioner_trigger
+    const val triggerIdArg = "trigger_id"
+    val routeWithArgs = "${route}/{$triggerIdArg}"
+    val arguments = listOf(
+        navArgument(triggerIdArg) { type = NavType.LongType }
+    )
+}
+
 // An array containing the destination objects defined above.
 val destinations = listOf(
     HomeDestination,
@@ -365,5 +449,9 @@ val destinations = listOf(
     LightControlsDestination,
     LightEditDestination,
     AirConditionerControlsDestination,
-    AirConditionerEditDestination
+    AirConditionerEditDestination,
+    LightTriggerAddDestination,
+    LightTriggerEditDestination,
+    AirConditionerTriggerAddDestination,
+    AirConditionerTriggerEditDestination
 )

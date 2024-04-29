@@ -52,8 +52,7 @@ class SensorDataSource(
                 }
 
                 override fun onFailure(asyncActionToken: IMqttToken?, exception: Throwable?) {
-                    Log.d("Connect", "Failed to connect to server.")
-                    throw exception!!
+                    Log.d("Connect", "Failed to connect to server. Reason: ${exception!!.message}")
                 }
             })
         } catch (exception: MqttException) {
@@ -72,8 +71,6 @@ class SensorDataSource(
                     subscribeToTopic(temperatureStatusTopic)
                     subscribeToTopic(lightStatusTopic)
                     subscribeToTopic(humidityStatusTopic)
-
-
                 } else {
                     Log.d("Callback", "Connected to server.")
                 }

@@ -7,7 +7,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import au.edu.swin.sdmd.smarthome.AirConditionerEditDestination
+import au.edu.swin.sdmd.smarthome.alarms.AirConditionerTriggerScheduler
 import au.edu.swin.sdmd.smarthome.data.Room
+import au.edu.swin.sdmd.smarthome.data.air_conditioner_trigger.AirConditionerTrigger
+import au.edu.swin.sdmd.smarthome.data.air_conditioner_trigger.AirConditionerTriggerRepository
+import au.edu.swin.sdmd.smarthome.data.air_conditioner_trigger.OfflineAirConditionerTriggerRepository
 import au.edu.swin.sdmd.smarthome.data.airconditioner.AirConditioner
 import au.edu.swin.sdmd.smarthome.data.airconditioner.AirConditionerRepository
 import kotlinx.coroutines.flow.filterNotNull
@@ -17,9 +21,11 @@ import kotlinx.coroutines.launch
 // View model for the air conditioner screen.
 class AirConditionerEditViewModel(
     savedStateHandle: SavedStateHandle,
-    private val airConditionerRepository: AirConditionerRepository
+    private val airConditionerRepository: AirConditionerRepository,
+    private val airConditionerTriggerRepository: AirConditionerTriggerRepository,
+    private val airConditionerTriggerScheduler: AirConditionerTriggerScheduler
 ) : ViewModel() {
-    var uiState by mutableStateOf(AirConditionerEditUiState())
+    var airConditionerEditUiState by mutableStateOf(AirConditionerEditUiState())
         private set
 
     var originalName by mutableStateOf("")
@@ -32,20 +38,26 @@ class AirConditionerEditViewModel(
     init {
         viewModelScope.launch {
             originalAirConditioner = airConditionerRepository.getById(airConditionerId).filterNotNull().first()
-            uiState = originalAirConditioner.toAirConditionerEditUiState()
+            airConditionerEditUiState = originalAirConditioner.toAirConditionerEditUiState()
             originalName = originalAirConditioner.name
         }
     }
 
     fun updateAirConditionerDetails(details: AirConditionerDetails) {
-        uiState = AirConditionerEditUiState(details, isValid(details))
+        airConditionerEditUiState = AirConditionerEditUiState(details, isValid(details))
     }
 
-    suspend fun update() {
-        airConditionerRepository.update(uiState.details.toAirConditioner(originalAirConditioner))
+    suspend fun updateAirConditioner() {
+        airConditionerRepository.update(airConditionerEditUiState.details.toAirConditioner(originalAirConditioner))
     }
 
-    suspend fun delete() {
+    suspend fun deleteAirConditioner() {
+        val triggers = airConditionerTriggerRepository.getAllForAirConditioner(airConditionerId).filterNotNull().first()
+        triggers.forEach { trigger ->
+            airConditionerTriggerScheduler.cancel(trigger)
+            airConditionerTriggerRepository.delete(trigger)
+        }
+
         airConditionerRepository.delete(originalAirConditioner)
     }
 

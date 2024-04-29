@@ -15,31 +15,29 @@ fun AirConditionerEditScreen(
     viewModel: AirConditionerEditViewModel = viewModel(factory = SmartHomeViewModelFactory)
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val uiState = viewModel.uiState
+    val airConditionerEditUiState = viewModel.airConditionerEditUiState
     val originalName = viewModel.originalName
 
-    DeviceEditForm(
-        originalName = originalName,
-        deviceName = uiState.details.name,
+    DeviceEditForm(originalName = originalName,
+        deviceName = airConditionerEditUiState.details.name,
         onDeviceNameChange = { name ->
-            viewModel.updateAirConditionerDetails(uiState.details.copy(name = name))
+            viewModel.updateAirConditionerDetails(airConditionerEditUiState.details.copy(name = name))
         },
-        room = uiState.details.location,
+        room = airConditionerEditUiState.details.location,
         onRoomChange = { room ->
-            viewModel.updateAirConditionerDetails(uiState.details.copy(location = room))
+            viewModel.updateAirConditionerDetails(airConditionerEditUiState.details.copy(location = room))
         },
-        isValid = viewModel.uiState.isValid,
+        isValid = viewModel.airConditionerEditUiState.isValid,
         onConfirmEdit = {
             coroutineScope.launch {
-                viewModel.update()
+                viewModel.updateAirConditioner()
                 navigateBackAfterEdit()
             }
         },
         onConfirmDelete = {
             coroutineScope.launch {
-                viewModel.delete()
+                viewModel.deleteAirConditioner()
                 navigateBackAfterDelete()
             }
-        }
-    )
+        })
 }

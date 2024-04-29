@@ -4,8 +4,12 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import au.edu.swin.sdmd.smarthome.alarms.AirConditionerTriggerScheduler
+import au.edu.swin.sdmd.smarthome.alarms.LightTriggerScheduler
+import au.edu.swin.sdmd.smarthome.data.air_conditioner_trigger.OfflineAirConditionerTriggerRepository
 import au.edu.swin.sdmd.smarthome.data.airconditioner.OfflineAirConditionerRepository
 import au.edu.swin.sdmd.smarthome.data.light.OfflineLightRepository
+import au.edu.swin.sdmd.smarthome.data.light_trigger.OfflineLightTriggerRepository
 import au.edu.swin.sdmd.smarthome.data.sensor_humidity.MQTTHumiditySensorRepository
 import au.edu.swin.sdmd.smarthome.data.sensor_light.MQTTLightSensorRepository
 import au.edu.swin.sdmd.smarthome.data.sensor_temperature.MQTTTemperatureSensorRepository
@@ -40,5 +44,21 @@ class AppContainer(private val context: Context) {
 
     val lightSensorRepository by lazy {
         MQTTLightSensorRepository(sensorDataSource)
+    }
+
+    val lightTriggerRepository by lazy {
+        OfflineLightTriggerRepository(SmartHomeDatabase.getDatabase(context).lightTriggerDao())
+    }
+
+    val lightTriggerScheduler by lazy {
+        LightTriggerScheduler(context)
+    }
+
+    val airConditionerTriggerRepository by lazy {
+        OfflineAirConditionerTriggerRepository(SmartHomeDatabase.getDatabase(context).airConditionerTriggerDao())
+    }
+
+    val airConditionerTriggerScheduler by lazy {
+        AirConditionerTriggerScheduler(context)
     }
 }

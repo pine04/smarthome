@@ -43,4 +43,10 @@ interface AirConditionerDao {
 
     @Query("SELECT COUNT(*) FROM air_conditioner WHERE isOn == 1 AND location == :room")
     fun getActiveCountByRoom(room: String): Flow<Int>
+
+    @Query("UPDATE air_conditioner SET isOn = 1 WHERE id = :airConditionerId")
+    suspend fun turnOn(airConditionerId: Int)
+
+    @Query("UPDATE air_conditioner SET isOn = 0 WHERE id = :airConditionerId")
+    suspend fun turnOff(airConditionerId: Int)
 }

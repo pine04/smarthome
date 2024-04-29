@@ -56,4 +56,22 @@
     <string name="of_device_s_active">%1$s of %2$s device(s) active</string>
     <string name="view_devices_in_room">view devices in room</string>
     <string name="messages">Messages</string>
+    <string name="trigger_time_at">at %1$s</string>
+    <string name="action_turn_on">Turn on</string>
+    <string name="action_turn_off">Turn off</string>
+    <string name="triggers">Triggers</string>
+    <string name="add_light_trigger">Add light trigger</string>
+    <string name="action_unknown">Unknown action</string>
+    <string name="action">Action</string>
+    <string name="cancel">Cancel</string>
+    <string name="set">Set</string>
+    <string name="set_a_time_for_the_trigger">Set a time for the trigger</string>
+    <string name="trigger_time">Trigger time</string>
+    <string name="create_trigger">Create trigger</string>
+    <string name="edit_light_trigger">Edit light trigger</string>
+    <string name="update_trigger">Update trigger</string>
+    <string name="delete_trigger">Delete trigger</string>
+    <string name="no_triggers_set">No triggers set.</string>
+    <string name="add_air_conditioner_trigger">Add air conditioner trigger</string>
+    <string name="edit_air_conditioner_trigger">Edit air conditioner trigger</string>
 </resources>

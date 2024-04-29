@@ -43,4 +43,10 @@ interface LightDao {
 
     @Query("SELECT COUNT(*) FROM light WHERE isOn == 1 AND location == :room")
     fun getActiveCountByRoom(room: String): Flow<Int>
+
+    @Query("UPDATE light SET isOn = 1 WHERE id = :lightId")
+    suspend fun turnOn(lightId: Int)
+
+    @Query("UPDATE light SET isOn = 0 WHERE id = :lightId")
+    suspend fun turnOff(lightId: Int)
 }

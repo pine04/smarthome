@@ -1,5 +1,7 @@
 package au.edu.swin.sdmd.smarthome.ui.light
 
+import android.util.Log
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -7,17 +9,25 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import au.edu.swin.sdmd.smarthome.LightEditDestination
+import au.edu.swin.sdmd.smarthome.alarms.LightTriggerScheduler
 import au.edu.swin.sdmd.smarthome.data.Room
 import au.edu.swin.sdmd.smarthome.data.light.Light
 import au.edu.swin.sdmd.smarthome.data.light.LightRepository
+import au.edu.swin.sdmd.smarthome.data.light_trigger.LightTrigger
+import au.edu.swin.sdmd.smarthome.data.light_trigger.LightTriggerRepository
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 // View model for the light edit screen.
 class LightEditViewModel(
     savedStateHandle: SavedStateHandle,
-    private val lightRepository: LightRepository
+    private val lightRepository: LightRepository,
+    private val lightTriggerRepository: LightTriggerRepository,
+    private val lightTriggerScheduler: LightTriggerScheduler
 ) : ViewModel() {
 
     var lightEditUiState by mutableStateOf(LightEditUiState())
@@ -47,6 +57,12 @@ class LightEditViewModel(
     }
 
     suspend fun deleteLight() {
+        val triggers = lightTriggerRepository.getAllForLight(lightId).filterNotNull().first()
+        triggers.forEach { trigger ->
+            lightTriggerScheduler.cancel(trigger)
+            lightTriggerRepository.delete(trigger)
+        }
+
         lightRepository.delete(originalLight)
     }
 

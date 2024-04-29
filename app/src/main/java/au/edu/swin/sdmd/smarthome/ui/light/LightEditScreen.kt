@@ -17,12 +17,11 @@ fun LightEditScreen(
     val coroutineScope = rememberCoroutineScope()
     val lightEditUiState = viewModel.lightEditUiState
     val originalName = viewModel.originalName
-    
-    DeviceEditForm(
-        originalName = originalName,
-        deviceName = lightEditUiState.lightDetails.name, 
-        onDeviceNameChange = { name -> 
-            viewModel.updateLightDetails(lightEditUiState.lightDetails.copy(name = name)) 
+
+    DeviceEditForm(originalName = originalName,
+        deviceName = lightEditUiState.lightDetails.name,
+        onDeviceNameChange = { name ->
+            viewModel.updateLightDetails(lightEditUiState.lightDetails.copy(name = name))
         },
         room = lightEditUiState.lightDetails.location,
         onRoomChange = { room ->
@@ -40,6 +39,5 @@ fun LightEditScreen(
                 viewModel.deleteLight()
                 navigateBackAfterDelete()
             }
-        }
-    )
+        })
 }
