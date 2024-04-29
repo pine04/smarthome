@@ -30,6 +30,8 @@ class SensorDataSource(
         val connectOptions = MqttConnectOptions().apply {
             isAutomaticReconnect = true
             isCleanSession = false
+            //userName = "student"
+            //password = "student".toCharArray()
         }
 
         try {

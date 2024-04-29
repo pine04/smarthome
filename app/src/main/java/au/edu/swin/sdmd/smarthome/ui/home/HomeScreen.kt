@@ -2,6 +2,7 @@ package au.edu.swin.sdmd.smarthome.ui.home
 
 import android.icu.text.SimpleDateFormat
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,6 +40,7 @@ import java.util.Locale
 // The app's home screen.
 @Composable
 fun HomeScreen(
+    navigateToSensor: (String) -> Unit,
     navigateToLightControls: (Int) -> Unit,
     navigateToAirConditionerControls: (Int) -> Unit,
     navigateToLightsScreen: () -> Unit,
@@ -79,7 +81,7 @@ fun HomeScreen(
             ) {
                 MetricCard(
                     metricIconResource = R.drawable.temperature_24px,
-                    metricMeasurementText = "${temperatureData.temperature}°C",
+                    metricMeasurementText = "${temperatureData.value}°C",
                     metricTimeString = "at ${formatter.format(temperatureData.time)}",
                     loading = temperatureData.time.compareTo(Date(0)) == 0,
                     isOn = temperatureSensorStatus,
@@ -90,12 +92,12 @@ fun HomeScreen(
                             viewModel.turnOffTemperatureSensor()
                         }
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f).clickable { navigateToSensor("temp") }
                 )
 
                 MetricCard(
                     metricIconResource = R.drawable.humidity_24px,
-                    metricMeasurementText = "${humidityData.humidity}%",
+                    metricMeasurementText = "${humidityData.value}%",
                     metricTimeString = "at ${formatter.format(humidityData.time)}",
                     loading = humidityData.time.compareTo(Date(0)) == 0,
                     isOn = humiditySensorStatus,
@@ -106,23 +108,23 @@ fun HomeScreen(
                             viewModel.turnOffHumiditySensor()
                         }
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f).clickable { navigateToSensor("humi") }
                 )
 
                 MetricCard(
                     metricIconResource = R.drawable.light_24px,
-                    metricMeasurementText = "${lightData.light} lx",
+                    metricMeasurementText = "${lightData.value} lx",
                     metricTimeString = "at ${formatter.format(lightData.time)}",
                     loading = lightData.time.compareTo(Date(0)) == 0,
                     isOn = lightSensorStatus,
                     setIsOn = { on ->
                         if (on) {
-                          viewModel.turnOnLightSensor()
+                            viewModel.turnOnLightSensor()
                         } else {
-                          viewModel.turnOffLightSensor()
+                            viewModel.turnOffLightSensor()
                         }
                     },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f).clickable { navigateToSensor("light") }
                 )
             }
         }

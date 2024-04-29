@@ -74,4 +74,6 @@
     <string name="no_triggers_set">No triggers set.</string>
     <string name="add_air_conditioner_trigger">Add air conditioner trigger</string>
     <string name="edit_air_conditioner_trigger">Edit air conditioner trigger</string>
+    <string name="sensors">Sensors</string>
+    <string name="sensor">Sensor</string>
 </resources>

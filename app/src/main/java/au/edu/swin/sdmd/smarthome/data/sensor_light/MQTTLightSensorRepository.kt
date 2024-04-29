@@ -1,6 +1,8 @@
 package au.edu.swin.sdmd.smarthome.data.sensor_light
 
+import au.edu.swin.sdmd.smarthome.data.SensorData
 import au.edu.swin.sdmd.smarthome.data.SensorDataSource
+import au.edu.swin.sdmd.smarthome.data.SensorRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
@@ -8,20 +10,20 @@ import java.util.Date
 
 class MQTTLightSensorRepository(
     private val sensorDataSource: SensorDataSource
-) : LightSensorRepository {
-    override fun getLightData(): Flow<LightSensorData> {
+) : SensorRepository {
+    override fun getValue(): Flow<SensorData> {
         return sensorDataSource.messageFlow.filter { it.topic == "lightSensor/data" }
             .map {
                 val data = it.message.substring(1, it.message.length - 1).split(",")
 
-                LightSensorData(
+                SensorData(
                     time = Date(data[0].toDouble().toLong() * 1000),
-                    light = data[1].toInt()
+                    value = data[1].toInt()
                 )
             }
     }
 
-    override fun getLightSensorStatus(): Flow<Boolean> {
+    override fun getStatus(): Flow<Boolean> {
         return sensorDataSource.messageFlow.filter { it.topic == "lightSensor/status" }
             .map {
                 it.message == "on"

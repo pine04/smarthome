@@ -45,6 +45,8 @@ import au.edu.swin.sdmd.smarthome.ui.light.LightTriggerEditScreen
 import au.edu.swin.sdmd.smarthome.ui.light.LightsScreen
 import au.edu.swin.sdmd.smarthome.ui.rooms.RoomsScreen
 import au.edu.swin.sdmd.smarthome.ui.rooms.SingleRoomScreen
+import au.edu.swin.sdmd.smarthome.ui.sensors.SensorsScreen
+import au.edu.swin.sdmd.smarthome.ui.sensors.SingleSensorScreen
 import au.edu.swin.sdmd.smarthome.ui.settings.SettingsScreen
 
 // An EnterTransition object used for animating a screen when it comes into view.
@@ -148,6 +150,7 @@ fun SmartHomeNavGraph(navController: NavHostController = rememberNavController()
                 popExitTransition = { FadeOutExitTransition }
             ) {
                 HomeScreen(
+                    navigateToSensor = { sensor -> navController.navigate("sensor/$sensor") },
                     navigateToLightControls = { id -> navController.navigate("light_controls/$id") },
                     navigateToAirConditionerControls = { id -> navController.navigate("air_conditioner_controls/$id") },
                     navigateToLightsScreen = { navController.navigate(LightsDestination.route) },
@@ -192,6 +195,28 @@ fun SmartHomeNavGraph(navController: NavHostController = rememberNavController()
                 RoomsScreen(
                     navigateToRoom = { room -> navController.navigate("single_room/$room") }
                 )
+            }
+
+            composable(
+                route = SensorsDestination.route,
+                enterTransition = { FadeInEnterTransition },
+                exitTransition = { FadeOutExitTransition },
+                popEnterTransition = { FadeInEnterTransition },
+                popExitTransition = { FadeOutExitTransition }
+            ) {
+                SensorsScreen(
+                    navigateToSensor = { sensor -> navController.navigate("sensor/$sensor") }
+                )
+            }
+
+            composable(
+                route = SensorDestination.routeWithArgs,
+                enterTransition = { FadeInEnterTransition },
+                exitTransition = { FadeOutExitTransition },
+                popEnterTransition = { FadeInEnterTransition },
+                popExitTransition = { FadeOutExitTransition }
+            ) {
+                SingleSensorScreen()
             }
 
             composable(
@@ -436,6 +461,21 @@ object AirConditionerTriggerEditDestination : NavigationDestination {
     )
 }
 
+object SensorsDestination : NavigationDestination {
+    override val route = "sensors"
+    override val titleResId = R.string.sensors
+}
+
+object SensorDestination : NavigationDestination {
+    override val route = "sensor"
+    override val titleResId = R.string.sensor
+    const val sensorArg = "sensor"
+    val routeWithArgs = "$route/{$sensorArg}"
+    val arguments = listOf(
+        navArgument(sensorArg) { type = NavType.StringType }
+    )
+}
+
 // An array containing the destination objects defined above.
 val destinations = listOf(
     HomeDestination,
@@ -453,5 +493,7 @@ val destinations = listOf(
     LightTriggerAddDestination,
     LightTriggerEditDestination,
     AirConditionerTriggerAddDestination,
-    AirConditionerTriggerEditDestination
+    AirConditionerTriggerEditDestination,
+    SensorsDestination,
+    SensorDestination
 )
