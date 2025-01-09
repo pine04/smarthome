@@ -1,37 +1,33 @@
-Software Development for Mobile devices
-Jan 2024
-Kotlin version: 1.8
+SmartHome
 ============================
 
-A sample project (named `ProjTemp1dot8`) which is used as starter template for your assignment projects.
+A smart home app that allows users to conveniently manage their smart appliances. Users can add or remove devices and control them on their phones. Due to time constraints, my app will not be interacting with real devices, but rather virtual devices stored in the local database.
+
+The app also reads real-time data from external sensors and visualize them as graphs. At present, these sensors are also virtual and are simulated by a script emitting random data to an MQTT broker.
+
+# Demo video
+
+A full video of the app can be found at this link: https://drive.google.com/file/d/1ICquiXfSbpQ1zs8WugbXBRfZ-ZiCKCia/view?usp=drive_link
+
+# Design screenshots
+
+## SmartHome screens
+
+![SmartHome screens](https://github.com/user-attachments/assets/ef9cc19c-095f-4982-9935-f731eaed719c)
+
+## Application architecture
+
+![Application architecture](https://github.com/user-attachments/assets/4421e2dd-bf97-42d1-bb0b-9df7a11a9597)
+
+## Sensor data
+
+![Sensor data](https://github.com/user-attachments/assets/72891bb4-bb4c-49b6-b68c-9efdf702a9f2)
+
+## Sensor data visualization
+
+![Sensor data visualization](https://github.com/user-attachments/assets/04807294-92d0-4972-b43f-773ffebe129c)
 
 ## Configuration
 - Android Studio 2023.1.1: Hedgehog 
 - API 33
-- Kotline version 1.8
-
-## Usage
-- Git clone this repository
-- In Android Studio (version as described above), open the project `ProjTemp1dot8` i
-- Ensure the configuration is correct by executing `Main.kt` file. It should prints: `Hello, my friend Kotlin`
-- Customise the project to suite your assignment project (see below)
-
-## How to change the project name?
-- In file `settings.gradle`, change the project directory name to your project name
-  - Locate the entry `rootProject.name = "ProjTemp1dot8"` and change `ProjTemp1dot8` to your project assignment name (e.g. `W03App`)
-- On File Explorer, rename the project directory to the same name
-- Close the project and open it again to see the change
-
-## How to change the default package name to your assignment?
-Do the followings in Android Studio:
-- In `app/java/`, right-click on the package and choose "Refactor/Rename"
-  - Choose "Rename package" and enter a new package name
-  - Tick the two check boxes: "Search in comments and strings" and "Search for text occurrences"
-  - Click "Refactor" and then "Do Refactor" on the Refactoring Preview panel (bottom left)
-  - Click "Sync now" link on the Gradle notification message (top of the editor panel)
-## How to create a new Activity?
-- In the Project view on Android Studio
-- Right click on `app` node
-- On the context menu, choose "New -> Empty Activity"
-- Tick the check box "Launcher activity" check box on the dialog. Leave all other options and values as their defaults.
-- Click Finish to create
+- Kotlin version 1.8
